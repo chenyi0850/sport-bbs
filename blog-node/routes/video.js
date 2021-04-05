@@ -43,15 +43,16 @@ exports.uploadVideo = (req, res) => {
                     Multimedia.findByIdAndUpdate(data._id, {
                         coverSrc: 'getCoverSrc?coverSrc=uploads/videoCovers/' + data.id + '.png',
                         src: newPath
-                    }, (err, result) => {
+                    }, {new: true},(err, result) => {
                         if (err) {
                             console.log("添加coverSrc失败" + err)
+                            responseClient(res, 200, 0, '保存失败', result);
                         } else {
                             console.log("添加coverSrc成功")
+                            responseClient(res, 200, 0, '保存成功', result);
                         }
                     })
                 })
-                responseClient(res, 200, 0, '保存成功', data);
             }).catch(err => {
                 console.log(err)
                 responseClient(res);

@@ -16,7 +16,9 @@
     </el-card>
     <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
       <el-tab-pane label="我的动态" name="first"><archive /></el-tab-pane>
-      <el-tab-pane label="我的帖子" name="second">我的帖子</el-tab-pane>
+      <el-tab-pane label="我发布的" name="second">
+        <my-published />
+      </el-tab-pane>
       <el-tab-pane label="我的收藏" name="third">我的收藏</el-tab-pane>
       <el-tab-pane label="浏览记录" name="fourth">浏览记录</el-tab-pane>
     </el-tabs>
@@ -91,9 +93,11 @@
 <script>
 import { isMobileOrPc } from "@/utils/utils";
 import archive from "./archive"
+import myPublished from "@/components/myPublished"
 export default {
   components: {
     archive,
+    myPublished
   },
   data() {
     return {
@@ -113,7 +117,6 @@ export default {
   },
   methods: {
     handleClick(tab, event) {
-      console.log(tab, event);
     },
     handleClose() {
       this.dialogVisible = false

@@ -16,13 +16,16 @@ const timeAxisSchema = new mongoose.Schema({
 	// 标题
 	title: { type: String, required: true },
 
-	// 时间轴内容
+	// 时间轴内容(帖子的描述，视频的src)
 	content: { type: String },
+
+	// 视频封面src, 帖子或新闻img_src
+	coverSrc: { type: String },
 
 	// 时间轴内容的id
 	title_id: { type: mongoose.Schema.Types.ObjectId },
 
-	// 类型 1 是发表帖子 ，2 是收藏帖子，3 是点赞帖子，4是评论帖子，5是上传视频， 6是收藏视频，7是点赞视频，8是评论视频
+	// 类型 1 是发表帖子 ，2 是收藏帖子，3 是点赞帖子，4是评论帖子，5是上传视频， 6是收藏视频，7是点赞视频，8是评论视频，9是收藏新闻，10是点赞新闻，11是评论新闻
 	type: { type: Number, default: 1 },
 
 	// 状态 1 是已经完成 ，2 是正在进行，3 是没完成

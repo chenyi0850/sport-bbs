@@ -184,6 +184,7 @@ export default class WriteArticle extends Vue {
       title: this.article.title,
       title_id: data._id,
       type: 1,
+      content: this.article.desc,
     });
   }
 

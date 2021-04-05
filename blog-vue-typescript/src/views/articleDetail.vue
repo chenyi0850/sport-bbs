@@ -162,7 +162,7 @@ export default class ArticleDetail extends Vue {
     type: 1, //文章类型 => 1: 普通文章，2: 简历，3: 管理员介绍
   };
   private content: string = "";
-  private articleDetail: ArticleDetailIF = {
+  private articleDetail = {
     toc: "",
     _id: "",
     author: "biaochenxuying",
@@ -183,6 +183,7 @@ export default class ArticleDetail extends Vue {
     title: "",
     update_time: "",
     auth_logo: "",
+    type: 1
   };
   private cacheTime: number = 0; // 缓存时间
   private times: number = 0; // 评论次数
@@ -279,7 +280,7 @@ export default class ArticleDetail extends Vue {
       user_id: this.user_id,
       title: this.articleDetail.title,
       title_id: this.articleDetail._id,
-      type: 4,
+      type: this.articleDetail.type === 1 ? 11 : 4,
     });
   }
 
@@ -403,7 +404,7 @@ export default class ArticleDetail extends Vue {
       user_id: this.user_id,
       title: this.articleDetail.title,
       title_id: this.articleDetail._id,
-      type: 3,
+      type: this.articleDetail.type === 1 ? 10 : 3,
     });
   }
 
@@ -421,7 +422,7 @@ export default class ArticleDetail extends Vue {
         user_id: this.user_id,
         title: this.articleDetail.title,
         title_id: this.articleDetail._id,
-        type: 2,
+        type: this.articleDetail.type === 1 ? 9 : 2,
       });
       this.isCollected = false
       this.$message({
@@ -433,7 +434,7 @@ export default class ArticleDetail extends Vue {
         user_id: this.user_id,
         title: this.articleDetail.title,
         title_id: this.articleDetail._id,
-        type: 2,
+        type: this.articleDetail.type === 1 ? 9 : 2,
         content: this.articleDetail.desc
       });
       this.isCollected = true

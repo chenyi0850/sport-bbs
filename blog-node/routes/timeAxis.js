@@ -3,33 +3,23 @@ import TimeAxis from '../models/timeAxis';
 
 //获取全部时间轴内容
 exports.getTimeAxisList = (req, res) => {
-  let keyword = req.query.keyword || null;
-  let state = req.query.state || '';
+  let user_id = req.query.user_id;
   let pageNum = parseInt(req.query.pageNum) || 1;
   let pageSize = parseInt(req.query.pageSize) || 10;
-  let conditions = {};
-  if (!state) {
-    if (keyword) {
-      const reg = new RegExp(keyword, 'i'); //不区分大小写
-      conditions = {
-        $or: [{ title: { $regex: reg } }, { content: { $regex: reg } }],
-      };
-    }
-  } else if (state) {
-    state = parseInt(state);
-    if (keyword) {
-      const reg = new RegExp(keyword, 'i');
-      conditions = {
-        $and: [
-          { $or: [{ state: state }] },
-          { $or: [{ title: { $regex: reg } }, { content: { $regex: reg } }] },
-        ],
-      };
-    } else {
-      conditions = { state };
-    }
+  let conditions = { user_id };
+  if (req.query.types) {
+    let types = req.query.types.split(",")
+    console.log(types)
+    let $or = []
+    types.forEach(val => {
+      let condition = {
+        user_id,
+        type: parseInt(val)
+      }
+      $or.push(condition)
+    })
+    conditions = { $or }
   }
-
   let skip = pageNum - 1 < 0 ? 0 : (pageNum - 1) * pageSize;
   let responseData = {
     count: 0,
@@ -45,7 +35,8 @@ exports.getTimeAxisList = (req, res) => {
         title_id: 1,
         content: 1,
         update_time: 1,
-        type: 1
+        type: 1,
+        coverSrc: 1
       }; // 待返回的字段
       let options = {
         skip: skip,
@@ -66,7 +57,7 @@ exports.getTimeAxisList = (req, res) => {
 };
 
 exports.addTimeAxis = (req, res) => {
-  let { user_id, title, title_id, type, state, content, start_time, end_time } = req.body;
+  let { user_id, title, title_id, type, content, coverSrc, state, start_time, end_time } = req.body;
   // TimeAxis.findOne({
   //   title,
   // })
@@ -76,7 +67,9 @@ exports.addTimeAxis = (req, res) => {
     user_id,
     title,
     title_id,
-    type
+    type,
+    content,
+    coverSrc
     // start_time,
     // end_time,
   });

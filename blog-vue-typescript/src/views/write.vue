@@ -77,6 +77,8 @@ export default class Write extends Vue {
         user_id: this.user_id,
         title: response.data.name,
         title_id: response.data._id,
+        coverSrc: response.data.coverSrc,
+        content: response.data.src,
         type: 5,
       });
       return;

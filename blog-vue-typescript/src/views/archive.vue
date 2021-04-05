@@ -90,11 +90,23 @@ export default class Archive extends Vue {
           element.action = "评论了视频";
           break
         }
+        case 9: {
+          element.action = "收藏了新闻";
+          break
+        }
+        case 10: {
+          element.action = "点赞了新闻";
+          break
+        }
+        case 11: {
+          element.action = "评论了新闻";
+          break
+        }
       }
     });
-    console.log(data);
     this.isLoading = false;
     this.timeAxisList = [...this.timeAxisList, ...data.list];
+    console.log(this.timeAxisList);
     this.total = data.count;
     this.params.pageNum++;
     if (this.total === this.timeAxisList.length) {
@@ -117,8 +129,11 @@ export default class Archive extends Vue {
   }
 
   .item {
-    color: #333;
+    color: #409eff;
     cursor: auto;
+    .title {
+      color: #333;
+    }
     .title:hover {
       color: #1890ff;
       cursor: pointer;
