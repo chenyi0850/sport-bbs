@@ -183,7 +183,7 @@ export default class ArticleDetail extends Vue {
     title: "",
     update_time: "",
     auth_logo: "",
-    type: 1
+    type: 1,
   };
   private cacheTime: number = 0; // 缓存时间
   private times: number = 0; // 评论次数
@@ -326,7 +326,7 @@ export default class ArticleDetail extends Vue {
       this.params
     );
     this.isLoading = false;
-    console.log(data)
+    console.log(data);
     this.articleDetail = data;
     const article = markdown.marked(data.content);
     article.then((res: any) => {
@@ -342,6 +342,15 @@ export default class ArticleDetail extends Vue {
     document.title = title;
     document.querySelector("#keywords").setAttribute("content", keyword);
     document.querySelector("#description").setAttribute("content", description);
+    if (this.user_id) {
+      this.$https.post(this.$urls.addTimeAxis, {
+        user_id: this.user_id,
+        title: this.articleDetail.title,
+        title_id: this.articleDetail._id,
+        type: 12,
+        content: this.articleDetail.desc,
+      });
+    }
   }
 
   private isLiked: boolean = false;
@@ -393,7 +402,7 @@ export default class ArticleDetail extends Vue {
     };
     await this.$https.post(this.$urls.likeArticle, params);
     this.isLoading = false;
-    this.isLiked = true
+    this.isLiked = true;
     this.likeTimes++;
     ++this.articleDetail.meta.likes;
     this.$message({
@@ -424,7 +433,7 @@ export default class ArticleDetail extends Vue {
         title_id: this.articleDetail._id,
         type: this.articleDetail.type === 1 ? 9 : 2,
       });
-      this.isCollected = false
+      this.isCollected = false;
       this.$message({
         message: "取消收藏成功",
         type: "success",
@@ -435,9 +444,9 @@ export default class ArticleDetail extends Vue {
         title: this.articleDetail.title,
         title_id: this.articleDetail._id,
         type: this.articleDetail.type === 1 ? 9 : 2,
-        content: this.articleDetail.desc
+        content: this.articleDetail.desc,
       });
-      this.isCollected = true
+      this.isCollected = true;
       this.$message({
         message: "收藏成功",
         type: "success",

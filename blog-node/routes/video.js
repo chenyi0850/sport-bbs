@@ -41,7 +41,7 @@ exports.uploadVideo = (req, res) => {
                             size: '320x192'
                         });
                     Multimedia.findByIdAndUpdate(data._id, {
-                        coverSrc: 'getCoverSrc?coverSrc=uploads/videoCovers/' + data.id + '.png',
+                        coverSrc: 'http://localhost:3000/getCoverSrc?coverSrc=uploads/videoCovers/' + data.id + '.png',
                         src: newPath
                     }, {new: true},(err, result) => {
                         if (err) {
@@ -93,9 +93,9 @@ exports.getVideosList = async (req, res) => {
                 count,
                 list: []
             }
-            result.forEach(val => {
-                val.coverSrc = "http://localhost:3000/" + val.coverSrc
-            })
+            // result.forEach(val => {
+            //     val.coverSrc = "http://localhost:3000/" + val.coverSrc
+            // })
             responseData.list = result
             responseClient(res, 200, 0, '操作成功！', responseData);
         }

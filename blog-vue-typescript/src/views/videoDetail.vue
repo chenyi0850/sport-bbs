@@ -118,14 +118,6 @@ export default {
         return;
       }
 
-      // if (this.likeTimes > 0) {
-      //   this.$message({
-      //     message: "您已经点过赞了！悠着点吧！",
-      //     type: "warning",
-      //   });
-      //   return;
-      // }
-
       if (this.isLiked) {
         this.$message({
           message: "您已经点过赞了！悠着点吧！",
@@ -141,25 +133,14 @@ export default {
         });
         return;
       }
-      // let user_id = "";
-      // if (window.sessionStorage.userInfo) {
-      //   let userInfo = JSON.parse(window.sessionStorage.userInfo);
-      //   user_id = userInfo._id;
-      // } else {
-      //   this.$message({
-      //     message: "登录才能点赞，请先登录！",
-      //     type: "warning",
-      //   });
-      //   return;
-      // }
       let params = {
         id: this.videoDetail._id,
         user_id: this.user_id,
       };
       await this.$https.post(this.$urls.likeVideo, params);
       this.isLoading = false;
-
-      this.likeTimes++;
+      this.isLiked = true;
+      this.likeNum++;
       ++this.videoDetail.meta.likes;
       this.$message({
         message: "操作成功",
@@ -198,7 +179,8 @@ export default {
           title: this.videoDetail.name,
           title_id: this.videoDetail._id,
           type: 6,
-          content: this.$route.query.coverSrc
+          content: this.$route.query.src,
+          coverSrc: this.$route.query.coverSrc,
         });
         this.isCollected = true;
         this.$message({
@@ -298,15 +280,27 @@ export default {
       const data = await this.$https.get(this.$urls.getVideoDetail, {
         params: this.params,
       });
+      console.log(data);
       this.isLoading = false;
       this.videoDetail = data;
       this.likeNum = data.meta.likes;
-      this.commentNum = data.meta.comments
+      this.commentNum = data.meta.comments;
       let title = data.name;
       document.title = title;
       document
         .querySelector("#description")
         .setAttribute("content", description);
+      if (this.user_id) {
+        console.log(this.user_id)
+        this.$https.post(this.$urls.addTimeAxis, {
+          user_id: this.user_id,
+          title: this.videoDetail.name,
+          title_id: this.videoDetail._id,
+          type: 12,
+          content: this.$route.query.src,
+          coverSrc: this.$route.query.coverSrc,
+        });
+      }
     },
 
     async searchTimeAxis() {
@@ -316,7 +310,6 @@ export default {
           title_id: this.videoDetail._id,
         },
       });
-      console.log(data);
       data.forEach((element) => {
         if (element.type === 6) this.isCollected = true;
         if (element.type === 7) this.isLiked = true;

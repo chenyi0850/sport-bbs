@@ -40,6 +40,7 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 import { isMobileOrPc } from "@/utils/utils";
 @Component({})
 export default class myPublished extends Vue {
+  @Prop({ default: "1, 5" }) type: string;
   private isLoadEnd: boolean = false;
   private isLoading: boolean = false;
   private isMobileOrPc: boolean = isMobileOrPc();
@@ -66,14 +67,14 @@ export default class myPublished extends Vue {
   }
   private async handleSearchPublish(): Promise<void> {
     this.isLoading = true;
-    this.params.types = "1,5";
+    this.params.types = this.type;
     const data = await this.$https.get(this.$urls.getTimeAxisList, {
       params: this.params,
     });
-    data.list.forEach((element: any) => {
-      if (element.coverSrc)
-        element.coverSrc = "http://localhost:3000/" + element.coverSrc;
-    });
+    // data.list.forEach((element: any) => {
+    //   if (element.coverSrc)
+    //     element.coverSrc = "http://localhost:3000/" + element.coverSrc;
+    // });
     this.isLoading = false;
     this.publishedList = [...this.publishedList, ...data.list];
     console.log(this.publishedList);
@@ -91,9 +92,9 @@ export default class myPublished extends Vue {
 
 <style lang="less" scoped>
 .item {
-    border-bottom: 1px #f0f0f0 solid;
-    padding-left: 20px;
-    margin-bottom: 10px;
+  border-bottom: 1px #f0f0f0 solid;
+  padding-left: 20px;
+  margin-bottom: 10px;
 }
 .video-card {
   margin: 15px 20px 5px 5px;

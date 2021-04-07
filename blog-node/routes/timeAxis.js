@@ -6,7 +6,10 @@ exports.getTimeAxisList = (req, res) => {
   let user_id = req.query.user_id;
   let pageNum = parseInt(req.query.pageNum) || 1;
   let pageSize = parseInt(req.query.pageSize) || 10;
-  let conditions = { user_id };
+  let conditions = { 
+    user_id,
+    type: {$lt:12}
+   };
   if (req.query.types) {
     let types = req.query.types.split(",")
     console.log(types)
