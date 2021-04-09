@@ -1,16 +1,28 @@
 <template>
   <div>
     <div v-for="item in publishedList" :key="item._id" class="item">
-      <div
-        class="video-card"
-        :class="{ 'video-card-mobile': isMobileOrPc }"
-        @click="toVideoDetail(item.content, item.coverSrc)"
-        v-if="item.coverSrc"
-      >
-        <img :src="item.coverSrc" />
-        <p>{{ item.title }}</p>
+      <div v-if="item.coverSrc" class="video-row">
+        <div
+          class="video-card"
+          :class="{ 'video-card-mobile': isMobileOrPc }"
+          @click="toVideoDetail(item.content, item.coverSrc)"
+        >
+          <img :src="item.coverSrc" />
+          <p>{{ item.title }}</p>
+        </div>
+        <div class="video-btn">
+          <el-button
+            icon="el-icon-delete"
+            circle
+            @click="edit('delVideo', type, item)"
+          ></el-button>
+        </div>
       </div>
-      <a :href="href + item.title_id" target="_blank" v-else>
+      <div
+        v-else
+        @click="toArticleDetail(href + item.title_id)"
+        class="article-row"
+      >
         <!-- <img
           class="wrap-img img-blur-done"
           :data-src="item.img_url"
@@ -19,7 +31,22 @@
           alt="文章封面"
         /> -->
         <div class="content">
-          <h4 class="title">{{ item.title }}</h4>
+          <h4 class="title">
+            {{ item.title }}
+            <div>
+              <el-button
+                v-if="type === '1,5,13'"
+                icon="el-icon-edit"
+                circle
+                @click.stop="edit('editArticle', type, item)"
+              ></el-button>
+              <el-button
+                icon="el-icon-delete"
+                circle
+                @click.stop="edit('delArticle', type, item)"
+              ></el-button>
+            </div>
+          </h4>
           <p class="abstract">{{ item.content }}</p>
           <div class="meta">
             <!-- <span>查看 {{ item.meta.views }}</span>
@@ -30,14 +57,19 @@
             </span>
           </div>
         </div>
-      </a>
+      </div>
     </div>
   </div>
 </template>
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { isMobileOrPc } from "@/utils/utils";
+import {
+  getDocumentHeight,
+  getScrollTop,
+  getWindowHeight,
+  isMobileOrPc,
+} from "@/utils/utils";
 @Component({})
 export default class myPublished extends Vue {
   @Prop({ default: "1, 5" }) type: string;
@@ -75,17 +107,80 @@ export default class myPublished extends Vue {
     //   if (element.coverSrc)
     //     element.coverSrc = "http://localhost:3000/" + element.coverSrc;
     // });
+    console.log(data);
     this.isLoading = false;
     this.publishedList = [...this.publishedList, ...data.list];
-    console.log(this.publishedList);
     this.total = data.count;
     this.params.pageNum++;
-    if (this.total === this.publishedList.length) {
+    if (data.list.length === 0 || this.total === this.publishedList.length) {
       this.isLoadEnd = true;
+    }
+  }
+  toArticleDetail(href: string) {
+    window.open(href, "_blank");
+  }
+  private async edit(kind: string, type: string, item: any): Promise<void> {
+    console.log(kind, type, item);
+    let _id = item._id;
+    let title_id = item.title_id;
+    if (kind === "editArticle") {
+      this.$router.push("/write?article_id=" + title_id);
+    } else {
+      if (type === "1,5,13") {
+        if (kind === "delArticle") {
+          const data = await this.$https.post(this.$urls.delArticle, {
+            id: item.title_id,
+          });
+          console.log(data);
+        } else {
+          const data = await this.$https.post(this.$urls.delVideo, {
+            id: item.title_id,
+          });
+          console.log(data);
+        }
+      }
+      const data = await this.$https.post(this.$urls.delTimeAxis, {
+        _id,
+      });
+      let index = 0;
+      this.publishedList.forEach((val: any, idx) => {
+        if (val._id === _id) {
+          index = idx;
+        }
+      });
+      this.publishedList.splice(index, 1);
+      if (data !== "删除成功") {
+        this.$message.error("删除失败");
+        return;
+      }
+      if (type === "1,5,13") {
+        this.$message({
+          message: "删除成功",
+          type: "success",
+        });
+      } else if (type === "2,6,9") {
+        this.$message({
+          message: "取消收藏成功",
+          type: "success",
+        });
+      } else {
+        this.$message({
+          message: "删除浏览记录成功",
+          type: "success",
+        });
+      }
     }
   }
   mounted(): void {
     this.handleSearchPublish();
+    window.onscroll = () => {
+      if (getScrollTop() + getWindowHeight() > getDocumentHeight() - 150) {
+        // 如果不是已经没有数据了，都可以继续滚动加载
+        if (this.isLoadEnd === false && this.isLoading === false) {
+          this.handleSearchPublish();
+        }
+      }
+    };
   }
 }
 </script>
@@ -121,6 +216,9 @@ export default class myPublished extends Vue {
     overflow: hidden;
   }
 }
+.video-btn {
+  float: right;
+}
 .video-card-mobile {
   box-sizing: border-box;
   width: 100%;
@@ -131,10 +229,14 @@ export default class myPublished extends Vue {
     width: 100%;
   }
 }
+.article-row {
+  cursor: pointer;
+}
 .title {
   color: #333;
   margin: 7px 0 4px;
-  display: inherit;
+  display: flex;
+  justify-content: space-between;
   font-size: 18px;
   font-weight: 700;
   line-height: 1.5;
@@ -147,6 +249,9 @@ export default class myPublished extends Vue {
   color: #555;
 }
 .meta {
+  //   display: flex;
+  //   justify-content: space-between;
+  //   height: 50px;
   .time {
     color: #666;
     font-size: 12px;

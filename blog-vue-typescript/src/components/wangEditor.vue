@@ -8,6 +8,9 @@
 // 引入 wangEditor
 import wangEditor from "wangeditor";
 export default {
+  props: {
+    text: String
+  },
   data() {
     return {
       editor: null,
@@ -44,6 +47,7 @@ export default {
     // 创建编辑器
     editor.create();
     this.editor = editor;
+    editor.txt.html(this.text);
   },
   methods: {
   },

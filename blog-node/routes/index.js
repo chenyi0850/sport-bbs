@@ -75,6 +75,7 @@ module.exports = app => {
 	app.get('/getCoverSrc', video.getCoverSrc);
 	app.get('/getVideoDetail', video.getVideoDetail);
 	app.post("/likeVideo", video.likeVideo);
+	app.post('/delVideo', video.delVideo)
 	
 
 	app.get('/getProducts', equipment.getProducts)

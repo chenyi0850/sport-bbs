@@ -6,7 +6,7 @@
         <div class="left-btn" @click="slide('left')"></div>
         <div class="right-btn" @click="slide('right')"></div>
         <div class="equip-container" :style="{ left: left + 'px' }">
-          <div class="equip-card" v-for="item in products" :key="item.price">
+          <div class="equip-card" v-for="item in products" :key="item.name">
             <div class="images">
               <a :href="item.href" target="_blank"
                 ><img :src="item.img" :alt="item.name"

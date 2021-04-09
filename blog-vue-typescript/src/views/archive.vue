@@ -27,7 +27,7 @@
 </template>
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { timestampToTime } from "@/utils/utils";
+import { getDocumentHeight, getScrollTop, getWindowHeight, timestampToTime } from "@/utils/utils";
 import { ParamsArchive, ArchiveData } from "@/types/index";
 
 @Component({
@@ -49,6 +49,14 @@ export default class Archive extends Vue {
 
   mounted(): void {
     this.handleSearch();
+    window.onscroll = () => {
+      if (getScrollTop() + getWindowHeight() > getDocumentHeight() - 150) {
+        // 如果不是已经没有数据了，都可以继续滚动加载
+        if (this.isLoadEnd === false && this.isLoading === false) {
+          this.handleSearch();
+        }
+      }
+    };
   }
 
   private async handleSearch(): Promise<void> {
@@ -56,6 +64,7 @@ export default class Archive extends Vue {
     const data = await this.$https.get(this.$urls.getTimeAxisList, {
       params: this.params,
     });
+    console.log(data.list)
     data.list.forEach((element: any) => {
       switch (element.type) {
         case 1: {
@@ -102,14 +111,16 @@ export default class Archive extends Vue {
           element.action = "评论了新闻";
           break
         }
+        case 13: {
+          element.action = "更新了帖子"
+        }
       }
     });
     this.isLoading = false;
     this.timeAxisList = [...this.timeAxisList, ...data.list];
-    console.log(this.timeAxisList);
     this.total = data.count;
     this.params.pageNum++;
-    if (this.total === this.timeAxisList.length) {
+    if (data.list.length === 0 || this.total === this.timeAxisList.length) {
       this.isLoadEnd = true;
     }
   }

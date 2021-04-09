@@ -122,7 +122,7 @@ exports.delArticle = (req, res) => {
   Article.deleteMany({ _id: id })
     .then(result => {
       if (result.n === 1) {
-        responseClient(res, 200, 0, '删除成功!');
+        responseClient(res, 200, 0, '删除成功!', '删除成功');
       } else {
         responseClient(res, 200, 1, '文章不存在');
       }

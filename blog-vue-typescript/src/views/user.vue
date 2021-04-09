@@ -15,12 +15,12 @@
       </div>
     </el-card>
     <el-tabs v-model="activeName" @tab-click="handleClick" type="card">
-      <el-tab-pane label="我的动态" name="first"><archive /></el-tab-pane>
-      <el-tab-pane label="我发布的" name="second">
-        <my-published :type="'1,5'"/>
+      <el-tab-pane label="我的动态" name="first" :lazy="true"><archive /></el-tab-pane>
+      <el-tab-pane label="我发布的" name="second" :lazy="true">
+        <my-published :type="'1,5,13'"/>
       </el-tab-pane>
-      <el-tab-pane label="我的收藏" name="third"><my-published :type="'2,6,9'"/></el-tab-pane>
-      <el-tab-pane label="浏览记录" name="fourth"><my-published :type="'12'"/></el-tab-pane>
+      <el-tab-pane label="我的收藏" name="third" :lazy="true"><my-published :type="'2,6,9'"/></el-tab-pane>
+      <el-tab-pane label="浏览记录" name="fourth" :lazy="true"><my-published :type="'12'"/></el-tab-pane>
     </el-tabs>
     <el-dialog
       title="编辑个人资料"

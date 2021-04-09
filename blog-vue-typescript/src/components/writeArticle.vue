@@ -46,7 +46,7 @@
 
     <el-form-item label="内容" prop="content">
       <!-- <el-input v-model="article.content"></el-input> -->
-      <wang-editor ref="1" @change="updateContent" />
+      <wang-editor ref="1" @change="updateContent" :text="article.content" />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" @click="onSubmit('ruleForm')">发布</el-button>
@@ -64,6 +64,7 @@ import wangEditor from "@/components/wangEditor.vue";
 })
 export default class WriteArticle extends Vue {
   @Prop({ default: false }) isShare!: boolean;
+  @Prop({ default: "" }) articleDetail: any;
   // 文章表单
   private article: any = {
     href: "",
@@ -134,7 +135,13 @@ export default class WriteArticle extends Vue {
   onSubmit(formName: any) {
     this.$refs[formName].validate((valid: any) => {
       if (valid) {
-        this.addArticle();
+        if (this.articleDetail.title) {
+          console.log(this.article)
+          this.updateArticle();
+        } else {
+          this.addArticle();
+        }
+
         alert("submit!");
         if (this.isShare) this.$router.push("./equipment");
         else this.$router.push("./articles");
@@ -188,8 +195,69 @@ export default class WriteArticle extends Vue {
     });
   }
 
+  async updateArticle(): Promise<void> {
+    let user_id = "";
+    if (window.sessionStorage.userInfo) {
+      let userInfo = JSON.parse(window.sessionStorage.userInfo);
+      user_id = userInfo._id;
+    } else {
+      this.$message({
+        message: "登录才能发布，请先登录！",
+        type: "warning",
+      });
+      return;
+    }
+    const params: object = {
+      id: this.articleDetail._id,
+      title: this.article.title,
+      author: this.articleDetail.author,
+      keyword: "",
+      desc: this.article.desc,
+      content: this.article.content,
+      tags: this.article.tags.slice(0, this.article.tags.length - 1),
+      type: this.articleDetail.type,
+      buy_link: this.isShare ? this.article.href : "",
+      state: this.articleDetail.state,
+      img_url: this.articleDetail.img_url
+    };
+    const data = await this.$https.post(this.$urls.updateArticle, params);
+    console.log(data)
+    await this.$https.post(this.$urls.updateTimeAxis, {
+      user_id,
+      title: this.article.title,
+      title_id: this.articleDetail._id,
+      type: 1,
+      content: this.article.desc,
+    });
+    // await this.$https.post(this.$urls.addTimeAxis, {
+    //   user_id,
+    //   title: this.article.title,
+    //   title_id: data._id,
+    //   type: 13,
+    //   content: this.article.desc,
+    // });
+  }
+
   created(): void {
     this.getTagList();
+    if (this.articleDetail.title) {
+      const { buy_link, title, tags, content, desc } = this.articleDetail;
+      this.article = {
+        href: buy_link,
+        title,
+        content,
+        desc,
+      };
+      this.article.tags = "";
+      tags.forEach((element: any) => {
+        this.tagsInput.push({
+          name: element.name,
+          type: element.type,
+        });
+        // console.log(element._id)
+        this.article.tags += `${element._id},`;
+      });
+    }
   }
 }
 </script>

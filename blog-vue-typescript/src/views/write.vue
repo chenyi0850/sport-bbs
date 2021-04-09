@@ -1,10 +1,14 @@
 <template>
   <div class="write">
     <el-tabs tab-position="left" v-model="activeName">
-      <el-tab-pane label="发布帖子" name="first">
-        <write-article :isShare="false" />
+      <el-tab-pane label="发布帖子" name="first" :lazy="true">
+        <write-article
+          :isShare="false"
+          v-if="articleDetLoad"
+          :articleDetail="articleDetail"
+        />
       </el-tab-pane>
-      <el-tab-pane label="上传视频" name="second">
+      <el-tab-pane label="上传视频" name="second" :lazy="true">
         <el-upload
           class="avatar-uploader"
           :data="dataObj"
@@ -35,8 +39,11 @@
           ></el-progress>
         </el-upload>
       </el-tab-pane>
-      <el-tab-pane label="分享装备" name="third"
-        ><write-article :isShare="true"
+      <el-tab-pane label="分享装备" name="third" :lazy="true"
+        ><write-article
+          :isShare="true"
+          v-if="articleDetLoad"
+          :articleDetail="articleDetail"
       /></el-tab-pane>
     </el-tabs>
   </div>
@@ -53,7 +60,7 @@ import WriteArticle from "@/components/writeArticle.vue";
   },
 })
 export default class Write extends Vue {
-  activeName = "first";
+  activeName = "";
   user_id = JSON.parse(window.sessionStorage.userInfo)._id;
   qiniuUrl: string = "https://up.demoworld.com/"; // 个人七牛访问前缀
   imgFlag: boolean = false;
@@ -66,6 +73,8 @@ export default class Write extends Vue {
     token:
       "111o8CXprRY-dhCawNZM7LQMNs-4y1pEmUlzbuMExv9:Xqu54BdpgEykaYpZf4IKGJQpaNc=:eyJzY29wZSI6ImIyZXJwIiwiZGVhZGxpbmUiOjE1NjAyMTkxMDB9",
   }; // 此处七牛token写成常量方便调试，正式环境需要获取token
+  articleDetail: object = {};
+  articleDetLoad: boolean = false;
   handleRemove(file: any, fileList: any) {
     this.imageUrl = "";
   }
@@ -127,10 +136,26 @@ export default class Write extends Vue {
     this.percent = Math.floor(event.percent);
   }
 
-  created(): void {
+  async created(): Promise<void> {
     if (this.$route.query.share) {
       this.activeName = "third";
+    } else {
+      this.activeName = "first"
     }
+    if (this.$route.query.article_id) {
+      const data: any = await this.$https.post(this.$urls.getArticleDetail, {
+        id: this.$route.query.article_id,
+      });
+      this.articleDetail = data;
+      this.articleDetLoad = true;
+      // console.log(this.articleDetail)
+      if (data.type === 3) {
+        this.activeName = "third";
+      } else {
+        this.activeName = "first";
+      }
+    }
+    this.articleDetLoad = true
   }
 }
 </script>

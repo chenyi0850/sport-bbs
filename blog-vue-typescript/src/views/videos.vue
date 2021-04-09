@@ -29,7 +29,7 @@ export default class Videos extends Vue {
   private total: number = 0;
   private params = {
     pageNum: 1,
-    pageSize: 10,
+    pageSize: 20,
   };
 
   toVideoDetail(src: string, coverSrc: string): void {

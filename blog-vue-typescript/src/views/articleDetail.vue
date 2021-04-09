@@ -243,17 +243,7 @@ export default class ArticleDetail extends Vue {
       });
       return;
     }
-    // let user_id = "";
-    // if (window.sessionStorage.userInfo) {
-    //   let userInfo = JSON.parse(window.sessionStorage.userInfo);
-    //   user_id = userInfo._id;
-    // } else {
-    //   this.$message({
-    //     message: "登录才能评论，请先登录！",
-    //     type: "warning",
-    //   });
-    //   return;
-    // }
+    
     if (!this.user_id) {
       this.$message({
         message: "登录才能评论，请先登录！",
@@ -370,25 +360,7 @@ export default class ArticleDetail extends Vue {
       });
       return;
     }
-    // if (this.likeTimes > 0) {
-    //   this.$message({
-    //     message: "您已经点过赞了！悠着点吧！",
-    //     type: "warning",
-    //   });
-    //   return;
-    // }
 
-    // let user_id: string = "";
-    // if (window.sessionStorage.userInfo) {
-    //   let userInfo = JSON.parse(window.sessionStorage.userInfo);
-    //   user_id = userInfo._id;
-    // } else {
-    //   this.$message({
-    //     message: "登录才能点赞，请先登录！",
-    //     type: "warning",
-    //   });
-    //   return;
-    // }
     if (!this.user_id) {
       this.$message({
         message: "登录才能点赞，请先登录！",

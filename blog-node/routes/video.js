@@ -158,3 +158,18 @@ exports.likeVideo = (req, res) => {
         });
 }
 
+exports.delVideo = (req, res) => {
+    let { id } = req.body;
+    Multimedia.deleteMany({ _id: id })
+      .then(result => {
+        if (result.n === 1) {
+          responseClient(res, 200, 0, '删除成功!', '删除成功');
+        } else {
+          responseClient(res, 200, 1, '视频不存在');
+        }
+      })
+      .catch(err => {
+        console.error('err :', err);
+        responseClient(res);
+      });
+  };

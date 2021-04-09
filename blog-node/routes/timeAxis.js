@@ -6,10 +6,10 @@ exports.getTimeAxisList = (req, res) => {
   let user_id = req.query.user_id;
   let pageNum = parseInt(req.query.pageNum) || 1;
   let pageSize = parseInt(req.query.pageSize) || 10;
-  let conditions = { 
+  let conditions = {
     user_id,
-    type: {$lt:12}
-   };
+    type: {$ne: 12}
+  };
   if (req.query.types) {
     let types = req.query.types.split(",")
     console.log(types)
@@ -97,21 +97,26 @@ exports.addTimeAxis = (req, res) => {
 };
 
 exports.updateTimeAxis = (req, res) => {
-  let { id, title, state, content, start_time, end_time } = req.body;
+  console.log(req.body)
+  let { user_id, title, content, title_id, type} = req.body;
 
   TimeAxis.updateOne(
-    { _id: id },
+    { 
+      user_id,
+      title_id,
+      type
+     },
     {
+      // user_id,
       title,
-      state: Number(state),
       content,
-      start_time,
-      end_time,
+      // title_id,
+      type: 13,
       update_time: new Date(),
     },
   )
     .then(result => {
-      // console.log(result);
+      console.log(result);
       responseClient(res, 200, 0, '操作成功', result);
     })
     .catch(err => {
@@ -121,21 +126,31 @@ exports.updateTimeAxis = (req, res) => {
 };
 
 exports.delTimeAxis = (req, res) => {
-  let { user_id, title, title_id, type } = req.body;
-  TimeAxis.deleteMany({ user_id, title, title_id, type })
-    .then(result => {
-      responseClient(res, 200, 0, '操作成功!');
-      // console.log('result :', result)
-      // if (result.n === 1) {
-      //   responseClient(res, 200, 0, '操作成功!');
-      // } else {
-      //   responseClient(res, 200, 1, '时间轴内容不存在');
-      // }
-    })
-    .catch(err => {
+  let { _id, user_id, title, title_id, type } = req.body;
+  if (_id) {
+    TimeAxis.deleteOne({ _id }).then(result => {
+      responseClient(res, 200, 0, '操作成功!', '删除成功');
+    }).catch(err => {
       console.error('err :', err);
       responseClient(res);
-    });
+    })
+  } else {
+    TimeAxis.deleteMany({ user_id, title, title_id, type })
+      .then(result => {
+        responseClient(res, 200, 0, '操作成功!');
+        // console.log('result :', result)
+        // if (result.n === 1) {
+        //   responseClient(res, 200, 0, '操作成功!');
+        // } else {
+        //   responseClient(res, 200, 1, '时间轴内容不存在');
+        // }
+      })
+      .catch(err => {
+        console.error('err :', err);
+        responseClient(res);
+      });
+  }
+
 };
 
 // 详情

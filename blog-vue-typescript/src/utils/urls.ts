@@ -13,6 +13,8 @@ export const urls: object = {
   getArticleList: "getArticleList",
   likeArticle: "likeArticle",
   getArticleDetail: "getArticleDetail",
+  delArticle: "delArticle",
+  updateArticle: "updateArticle",
 
   addMessage: "addMessage",
   getMessageList: "getMessageList",
@@ -35,12 +37,14 @@ export const urls: object = {
   getVideosList: "getVideosList",
   getVideoDetail: "getVideoDetail",
   likeVideo: "likeVideo",
+  delVideo: "delVideo",
 
   getProducts: "getProducts",
 
   addTimeAxis: "addTimeAxis",
   searchTimeAxis: "searchTimeAxis",
-  delTimeAxis: "delTimeAxis"
+  delTimeAxis: "delTimeAxis",
+  updateTimeAxis: "updateTimeAxis"
 };
 
 export default urls;
