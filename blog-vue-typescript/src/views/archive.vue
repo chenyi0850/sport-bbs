@@ -38,8 +38,8 @@ export default class Archive extends Vue {
   private isLoading: boolean = false;
   private timeAxisList: Array<object> = [];
   private total: number = 0;
-  private user_id: string = window.sessionStorage.userInfo
-    ? JSON.parse(window.sessionStorage.userInfo)._id
+  private user_id: string = window.localStorage.userInfo
+    ? JSON.parse(window.localStorage.userInfo)._id
     : "";
   private params = {
     user_id: this.user_id,

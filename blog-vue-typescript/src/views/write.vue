@@ -61,7 +61,7 @@ import WriteArticle from "@/components/writeArticle.vue";
 })
 export default class Write extends Vue {
   activeName = "";
-  user_id = JSON.parse(window.sessionStorage.userInfo)._id;
+  user_id = JSON.parse(window.localStorage.userInfo)._id;
   qiniuUrl: string = "https://up.demoworld.com/"; // 个人七牛访问前缀
   imgFlag: boolean = false;
   imageUrl: string = "";

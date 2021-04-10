@@ -104,10 +104,8 @@ exports.login = (req, res) => {
   })
     .then(userInfo => {
       if (userInfo) {
-        
         //登录成功后设置session
         req.session.userInfo = userInfo;
-        
         responseClient(res, 200, 0, '登录成功', userInfo);
       } else {
         responseClient(res, 400, 1, '用户名或者密码错误');
@@ -120,6 +118,7 @@ exports.login = (req, res) => {
 
 //用户验证
 exports.userInfo = (req, res) => {
+  console.log("userInfo:::::"+req.session.userInfo)
   if (req.session.userInfo) {
     responseClient(res, 200, 0, '', req.session.userInfo);
   } else {
@@ -155,6 +154,7 @@ exports.currentUser = (req, res) => {
 };
 
 exports.logout = (req, res) => {
+  console.log("logout:::::"+req.session.userInfo)
   if (req.session.userInfo) {
     req.session.userInfo = null; // 删除session
     responseClient(res, 200, 0, '登出成功！！');

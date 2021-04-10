@@ -189,8 +189,8 @@ export default class ArticleDetail extends Vue {
   private times: number = 0; // 评论次数
   private likeTimes: number = 0; // 点赞次数
   private authLogo: string = require("../assets/userLogo.jpeg"); //作者头像
-  private user_id: string = window.sessionStorage.userInfo
-    ? JSON.parse(window.sessionStorage.userInfo)._id
+  private user_id: string = window.localStorage.userInfo
+    ? JSON.parse(window.localStorage.userInfo)._id
     : "";
 
   async mounted(): Promise<void> {
@@ -243,7 +243,7 @@ export default class ArticleDetail extends Vue {
       });
       return;
     }
-    
+
     if (!this.user_id) {
       this.$message({
         message: "登录才能评论，请先登录！",
@@ -316,7 +316,6 @@ export default class ArticleDetail extends Vue {
       this.params
     );
     this.isLoading = false;
-    console.log(data);
     this.articleDetail = data;
     const article = markdown.marked(data.content);
     article.then((res: any) => {

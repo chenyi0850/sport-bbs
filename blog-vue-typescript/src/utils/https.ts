@@ -47,7 +47,10 @@ service.interceptors.response.use(
         Message({
           message: data.message,
           type: "error"
-        });
+        })
+        setTimeout(() => window.location.reload(), 3000)
+        window.localStorage.userInfo = "";
+        return Promise.reject(new Error(res.data.message || "Error"));
       }
     } else {
       Message({

@@ -222,8 +222,8 @@ export default class Equipment extends Vue {
 
   toWrite(): void {
     let user_id = "";
-    if (window.sessionStorage.userInfo) {
-      let userInfo = JSON.parse(window.sessionStorage.userInfo);
+    if (window.localStorage.userInfo) {
+      let userInfo = JSON.parse(window.localStorage.userInfo);
       user_id = userInfo._id;
     } else {
       this.$message({

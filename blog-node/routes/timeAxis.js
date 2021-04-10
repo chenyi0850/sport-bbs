@@ -12,7 +12,6 @@ exports.getTimeAxisList = (req, res) => {
   };
   if (req.query.types) {
     let types = req.query.types.split(",")
-    console.log(types)
     let $or = []
     types.forEach(val => {
       let condition = {
@@ -116,7 +115,6 @@ exports.updateTimeAxis = (req, res) => {
     },
   )
     .then(result => {
-      console.log(result);
       responseClient(res, 200, 0, '操作成功', result);
     })
     .catch(err => {
@@ -170,7 +168,6 @@ exports.getTimeAxisDetail = (req, res) => {
 exports.searchTimeAxis = (req, res) => {
   const { user_id, title_id } = req.query
   TimeAxis.find({ user_id, title_id }).then(data => {
-    console.log(data)
     responseClient(res, 200, 0, '操作成功！', data);
   }).catch(err => {
     console.error('err :', err);

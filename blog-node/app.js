@@ -26,7 +26,7 @@ app.use(
 		name: 'session_id', //# 在浏览器中生成cookie的名称key，默认是connect.sid
 		resave: true,
 		saveUninitialized: true,
-		cookie: { maxAge: 60 * 1000 * 30, httpOnly: true }, //过期时间
+		cookie: { maxAge: 1000 * 60 * 60 * 24, httpOnly: true }, //过期时间
 	}),
 );
 
@@ -49,15 +49,28 @@ app.all('*', function (req, res, next) {
 	else next();
 });
 
-
-
-
-
-//将路由文件引入
+//将路由文件引入  登录前
 const route = require('./routes/index');
 
 //初始化所有路由
 route(app);
+
+const {responseClient} = require("./util/util")
+//判断是否登录
+app.all('*', function(req, res, next) {
+	console.log('请求' + req.session.userInfo)
+	if(!req.session.userInfo) {
+		responseClient(res, 200, 1, '登录过期，请重新登录', req.session.userInfo);
+	} else {
+		next()
+	}
+})
+
+//将登录后的路由文件引入
+const route2 = require('./routes/index2')
+//初始化
+route2(app)
+
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

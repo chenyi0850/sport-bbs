@@ -96,7 +96,7 @@ export default class RegisterAndLogin extends Vue {
       name: this.$route.name,
       query: this.$route.query
     };
-    window.sessionStorage.preventHistory = JSON.stringify(preventHistory);
+    window.localStorage.preventHistory = JSON.stringify(preventHistory);
     // window.location.href = 'https://github.com/login/oauth/authorize?client_id=6de90ab270aea2bdb01c&redirect_uri=http://biaochenxuying.cn/login'
     window.location.href = `${config.oauth_uri}?client_id=${config.client_id}&redirect_uri=${config.redirect_uri}`;
   }
@@ -170,7 +170,7 @@ export default class RegisterAndLogin extends Vue {
     this.$store.commit("SAVE_USER", {
       userInfo
     });
-    window.sessionStorage.userInfo = JSON.stringify(userInfo);
+    window.localStorage.userInfo = JSON.stringify(userInfo);
     this.$message({
       message: "操作成功",
       type: "success"

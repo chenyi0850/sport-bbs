@@ -164,8 +164,8 @@ export default class WriteArticle extends Vue {
 
   async addArticle(): Promise<void> {
     let user_id = "";
-    if (window.sessionStorage.userInfo) {
-      let userInfo = JSON.parse(window.sessionStorage.userInfo);
+    if (window.localStorage.userInfo) {
+      let userInfo = JSON.parse(window.localStorage.userInfo);
       user_id = userInfo._id;
     } else {
       this.$message({
@@ -197,8 +197,8 @@ export default class WriteArticle extends Vue {
 
   async updateArticle(): Promise<void> {
     let user_id = "";
-    if (window.sessionStorage.userInfo) {
-      let userInfo = JSON.parse(window.sessionStorage.userInfo);
+    if (window.localStorage.userInfo) {
+      let userInfo = JSON.parse(window.localStorage.userInfo);
       user_id = userInfo._id;
     } else {
       this.$message({

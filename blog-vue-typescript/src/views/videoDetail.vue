@@ -101,8 +101,8 @@ export default {
       likeNum: 0,
       commentNum: 0,
       videoDetail: {},
-      user_id: window.sessionStorage.userInfo
-        ? JSON.parse(window.sessionStorage.userInfo)._id
+      user_id: window.localStorage.userInfo
+        ? JSON.parse(window.localStorage.userInfo)._id
         : "",
       isLiked: false,
       isCollected: false,
@@ -230,8 +230,8 @@ export default {
         return;
       }
       // let user_id = "";
-      // if (window.sessionStorage.userInfo) {
-      //   let userInfo = JSON.parse(window.sessionStorage.userInfo);
+      // if (window.localStorage.userInfo) {
+      //   let userInfo = JSON.parse(window.localStorage.userInfo);
       //   user_id = userInfo._id;
       // } else {
       //   this.$message({

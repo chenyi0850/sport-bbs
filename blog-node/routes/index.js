@@ -15,7 +15,7 @@ const equipment = require('./equipment')
 
 module.exports = app => {
 	app.post('/login', user.login);
-	app.post('/logout', user.logout);
+	
 	app.post('/loginAdmin', user.loginAdmin);
 	app.post('/register', user.register);
 	app.post('/delUser', user.delUser);
@@ -23,25 +23,24 @@ module.exports = app => {
 	app.get('/currentUser', user.currentUser);
 	app.get('/getUserList', user.getUserList);
 
-	app.post('/addComment', comment.addComment);
-	app.post('/addThirdComment', comment.addThirdComment);
+	
+	
 	app.post('/changeComment', comment.changeComment);
 	app.post('/changeThirdComment', comment.changeThirdComment);
 	app.get('/getCommentList', comment.getCommentList);
 
-	app.post('/addArticle', article.addArticle);
-	app.post('/updateArticle', article.updateArticle);
-	app.post('/delArticle', article.delArticle);
+	
+	
+	
 	app.get('/getArticleList', article.getArticleList);
 	app.get('/getArticleListAdmin', article.getArticleListAdmin);
 	app.post('/getArticleDetail', article.getArticleDetail);
-	app.post('/likeArticle', article.likeArticle);
+	
 
-	app.post('/addTag', tag.addTag);
-	app.post('/delTag', tag.delTag);
+	
 	app.get('/getTagList', tag.getTagList);
 
-	app.post('/addMessage', message.addMessage);
+	
 	app.post('/addReplyMessage', message.addReplyMessage);
 	app.post('/delMessage', message.delMessage);
 	app.post('/getMessageDetail', message.getMessageDetail);
@@ -56,12 +55,12 @@ module.exports = app => {
 	app.post('/delCategory', category.delCategory);
 	app.get('/getCategoryList', category.getCategoryList);
 
-	app.post('/addTimeAxis', timeAxis.addTimeAxis);
-	app.post('/updateTimeAxis', timeAxis.updateTimeAxis);
-	app.post('/delTimeAxis', timeAxis.delTimeAxis);
-	app.get('/getTimeAxisList', timeAxis.getTimeAxisList);
+	
+	
+	
+	
 	app.post('/getTimeAxisDetail', timeAxis.getTimeAxisDetail);
-	app.get('/searchTimeAxis', timeAxis.searchTimeAxis)
+	
 
 	app.post('/addProject', project.addProject);
 	app.post('/updateProject', project.updateProject);
@@ -69,13 +68,13 @@ module.exports = app => {
 	app.get('/getProjectList', project.getProjectList);
 	app.post('/getProjectDetail', project.getProjectDetail);
 
-	app.post('/uploadVideo', video.uploadVideo);
+	
 	app.get('/getVideo', video.getVideo);
 	app.get('/getVideosList', video.getVideosList);
 	app.get('/getCoverSrc', video.getCoverSrc);
 	app.get('/getVideoDetail', video.getVideoDetail);
-	app.post("/likeVideo", video.likeVideo);
-	app.post('/delVideo', video.delVideo)
+	
+	
 	
 
 	app.get('/getProducts', equipment.getProducts)

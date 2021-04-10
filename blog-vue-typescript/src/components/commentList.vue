@@ -119,7 +119,7 @@ export default class CommentList extends Vue {
     user: ToUser,
     secondUser?: ToUser
   ): boolean | void {
-    if (!window.sessionStorage.userInfo) {
+    if (!window.localStorage.userInfo) {
       this.$message({
         message: "登录才能点赞，请先登录！",
         type: "warning"

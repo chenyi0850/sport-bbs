@@ -208,8 +208,8 @@ export default class Nav extends Vue {
       name: "",
       avatar: ""
     };
-    if (window.sessionStorage.userInfo) {
-      userInfo = JSON.parse(window.sessionStorage.userInfo);
+    if (window.localStorage.userInfo) {
+      userInfo = JSON.parse(window.localStorage.userInfo);
       this.$store.commit("SAVE_USER", {
         userInfo
       });
@@ -281,12 +281,12 @@ export default class Nav extends Vue {
     this.$store.commit("SAVE_USER", {
       userInfo
     });
-    window.sessionStorage.userInfo = JSON.stringify(userInfo);
+    window.localStorage.userInfo = JSON.stringify(userInfo);
     this.$message({
       message: "操作成功",
       type: "success"
     });
-    let preventHistory = JSON.parse(window.sessionStorage.preventHistory);
+    let preventHistory = JSON.parse(window.localStorage.preventHistory);
     if (preventHistory) {
       this.$router.push({
         path: preventHistory.name,
@@ -296,7 +296,7 @@ export default class Nav extends Vue {
   }
 
   private handleLogout(): void {
-    window.sessionStorage.userInfo = "";
+    window.localStorage.userInfo = "";
     this.$store.commit("SAVE_USER", {
       userInfo: {
         _id: "",
@@ -304,6 +304,7 @@ export default class Nav extends Vue {
         avatar: ""
       }
     });
+    this.$https.post(this.$urls.logout).then((res: any) => console.log(res))
   }
 
   private handleClick(value: string): void {
