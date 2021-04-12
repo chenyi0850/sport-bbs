@@ -1,5 +1,5 @@
 <template>
-  <el-form label-width="80px" :model="article" :rules="rules" ref="ruleForm">
+  <el-form label-width="70px" :model="article" :rules="rules" ref="ruleForm" :label-position="isMobileOrPc ? 'top' : ''">
     <el-form-item label="购买链接" prop="href" v-if="isShare">
       <el-input v-model="article.href"></el-input>
     </el-form-item>
@@ -57,6 +57,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import wangEditor from "@/components/wangEditor.vue";
+import { isMobileOrPc } from "@/utils/utils";
 @Component({
   components: {
     wangEditor,
@@ -65,6 +66,8 @@ import wangEditor from "@/components/wangEditor.vue";
 export default class WriteArticle extends Vue {
   @Prop({ default: false }) isShare!: boolean;
   @Prop({ default: "" }) articleDetail: any;
+
+  private isMobileOrPc: boolean = isMobileOrPc()
   // 文章表单
   private article: any = {
     href: "",
@@ -136,7 +139,7 @@ export default class WriteArticle extends Vue {
     this.$refs[formName].validate((valid: any) => {
       if (valid) {
         if (this.articleDetail.title) {
-          console.log(this.article)
+          console.log(this.article);
           this.updateArticle();
         } else {
           this.addArticle();
@@ -218,10 +221,10 @@ export default class WriteArticle extends Vue {
       type: this.articleDetail.type,
       buy_link: this.isShare ? this.article.href : "",
       state: this.articleDetail.state,
-      img_url: this.articleDetail.img_url
+      img_url: this.articleDetail.img_url,
     };
     const data = await this.$https.post(this.$urls.updateArticle, params);
-    console.log(data)
+    console.log(data);
     await this.$https.post(this.$urls.updateTimeAxis, {
       user_id,
       title: this.article.title,

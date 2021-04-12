@@ -40,7 +40,7 @@
                      alt="user">
                      <img v-else
                      class="user-img"
-                     src="../assets/user.png"
+                     :src="userInfo.avatar"
                      alt="user">
                 <!-- <img v-if="userInfo.avatar"
                      class="user-img"
@@ -106,10 +106,10 @@
                class="item">
             <router-link to="/equipment">装 备</router-link>
           </div>
-          <!-- <div @click="handleClickMenu('/message')"
+          <div @click="handleClickMenu('/write')"
                class="item">
-            <router-link to="/message">留 言</router-link>
-          </div> -->
+            <router-link to="/write">发 帖</router-link>
+          </div>
           <div @click="handleClickMenu('/about')"
                class="item">
             <router-link to="/about">关 于</router-link>
@@ -183,6 +183,11 @@ export default class Nav extends Vue {
     },
     {
       index: "5",
+      path: "/write",
+      name: "发帖"
+    },
+    {
+      index: "6",
       path: "/about",
       name: "关于"
     }
@@ -202,8 +207,8 @@ export default class Nav extends Vue {
     }
   }
 
-  get userInfo(): UserInfo {
-    let userInfo: UserInfo = {
+  get userInfo() {
+    let userInfo: any = {
       _id: "",
       name: "",
       avatar: ""
@@ -228,6 +233,9 @@ export default class Nav extends Vue {
         this.activeIndex = i + 1 + "";
         this.title = l.name;
         break;
+      } else if(val.path === '/user') {
+        this.title = "我的"
+        break
       }
     }
   }
@@ -235,6 +243,10 @@ export default class Nav extends Vue {
   private handleClickMenu(route: string): void {
     this.isShow = false;
     if (route === "/login") {
+      if(this.userInfo._id) {
+        this.$router.push("/user")
+        return
+      }
       this.handleFlag = "login";
       this.visible = true;
     }
@@ -403,6 +415,7 @@ export default class Nav extends Vue {
       top: -15px;
       right: 0;
       width: 50px;
+      height: 50px;
       border-radius: 50%;
     }
   }

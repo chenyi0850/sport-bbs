@@ -1,6 +1,6 @@
 <template>
   <div class="message left">
-    给开发者留言：
+    <p>我的毕设，给我留言：</p>
     <el-form :model="params"
              status-icon
              :rules="rules"
@@ -173,7 +173,4 @@ export default class Message extends Vue {
 }
 </script>
 <style scoped>
-.message {
-  padding: 100px 20px 0 20px;
-}
 </style>

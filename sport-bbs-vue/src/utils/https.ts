@@ -48,8 +48,11 @@ service.interceptors.response.use(
           message: data.message,
           type: "error"
         })
-        setTimeout(() => window.location.reload(), 3000)
-        window.localStorage.userInfo = "";
+        if (window.localStorage.userInfo) {
+          setTimeout(() => window.location.reload(), 3000)
+          window.localStorage.userInfo = "";
+          return Promise.reject(new Error(res.data.message || "Error"));
+        } 
         return Promise.reject(new Error(res.data.message || "Error"));
       }
     } else {

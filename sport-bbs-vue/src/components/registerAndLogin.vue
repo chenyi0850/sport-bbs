@@ -16,7 +16,8 @@
         <el-input type="password"
                   placeholder="密码"
                   v-model="params.password"
-                  autocomplete="off"></el-input>
+                  autocomplete="off"
+                  show-password></el-input>
       </el-formItem>
       <el-formItem v-if="handleFlag === 'register'"
                    label="昵称"
@@ -161,12 +162,13 @@ export default class RegisterAndLogin extends Vue {
     }
     this.btnLoading = false;
 
-    const userInfo: UserInfo = {
+    const userInfo = {
       _id: data._id,
       name: data.name,
-      avatar: data.avatar
+      avatar: data.avatar,
+      introduce: data.introduce,
+      phone: data.phone
     };
-    console.log(userInfo)
     this.$store.commit("SAVE_USER", {
       userInfo
     });

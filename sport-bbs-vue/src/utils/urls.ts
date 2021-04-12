@@ -4,6 +4,8 @@ export const urls: object = {
   logout: "logout",
   register: "register",
   getUser: "getUser",
+  updateUser: "updateUser",
+  uploadAvatar: "uploadAvatar",
 
   addComment: "addComment",
   addThirdComment: "addThirdComment",
@@ -44,7 +46,7 @@ export const urls: object = {
   addTimeAxis: "addTimeAxis",
   searchTimeAxis: "searchTimeAxis",
   delTimeAxis: "delTimeAxis",
-  updateTimeAxis: "updateTimeAxis"
+  updateTimeAxis: "updateTimeAxis",
 };
 
 export default urls;

@@ -35,5 +35,7 @@ module.exports = app => {
     app.get('/searchTimeAxis', timeAxis.searchTimeAxis)
     app.post('/uploadVideo', video.uploadVideo);
     app.post('/delVideo', video.delVideo)
-    
+    app.get('/getAvatar', user.getAvatar)
+    app.post('/updateUser', user.updateUser)
+    app.post('/uploadAvatar', user.uploadAvatar)
 };

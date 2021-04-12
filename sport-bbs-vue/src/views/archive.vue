@@ -64,7 +64,6 @@ export default class Archive extends Vue {
     const data = await this.$https.get(this.$urls.getTimeAxisList, {
       params: this.params,
     });
-    console.log(data.list)
     data.list.forEach((element: any) => {
       switch (element.type) {
         case 1: {

@@ -1,6 +1,10 @@
 const fetch = require('node-fetch');
 const CONFIG = require('../app.config.js');
 const User = require('../models/user');
+const fs = require("fs")
+const multer = require('multer')
+const upload = multer({ dest: 'uploads/avatar' }).single('file')
+import user from '../models/user';
 // const OAuth = require('../models/oauth');
 import { MD5_SUFFIX, responseClient, md5 } from '../util/util.js';
 
@@ -21,7 +25,7 @@ exports.getUser = (req, res) => {
   fetch(path, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json', 
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify(params),
   })
@@ -118,7 +122,7 @@ exports.login = (req, res) => {
 
 //用户验证
 exports.userInfo = (req, res) => {
-  console.log("userInfo:::::"+req.session.userInfo)
+  console.log("userInfo:::::" + req.session.userInfo)
   if (req.session.userInfo) {
     responseClient(res, 200, 0, '', req.session.userInfo);
   } else {
@@ -154,7 +158,7 @@ exports.currentUser = (req, res) => {
 };
 
 exports.logout = (req, res) => {
-  console.log("logout:::::"+req.session.userInfo)
+  console.log("logout:::::" + req.session.userInfo)
   if (req.session.userInfo) {
     req.session.userInfo = null; // 删除session
     responseClient(res, 200, 0, '登出成功！！');
@@ -242,6 +246,47 @@ exports.register = (req, res) => {
     });
 };
 
+exports.updateUser = (req, res) => {
+  let { _id, name, password, phone, email, introduce, type } = req.body;
+  if (!email) {
+    responseClient(res, 400, 2, '用户邮箱不可为空');
+    return;
+  }
+  const reg = new RegExp(
+    '^[a-z0-9]+([._\\-]*[a-z0-9])*@([a-z0-9]+[-a-z0-9]*[a-z0-9]+.){1,63}[a-z0-9]+$',
+  ); //正则表达式
+  if (!reg.test(email)) {
+    responseClient(res, 400, 2, '请输入格式正确的邮箱！');
+    return;
+  }
+  if (!name) {
+    responseClient(res, 400, 2, '用户名不可为空');
+    return;
+  }
+  if (!password) {
+    responseClient(res, 400, 2, '密码不可为空');
+    return;
+  }
+  User.findOneAndUpdate(
+    {
+      _id
+    },
+    {
+      name,
+      password: md5(password + MD5_SUFFIX),
+      phone,
+      email,
+      introduce
+    },
+    {new: true}
+  ).then(result => {
+    responseClient(res, 200, 0, '更新成功', result);
+  }).catch(err => {
+    responseClient(res);
+    return;
+  })
+}
+
 exports.delUser = (req, res) => {
   let { id } = req.body;
   User.deleteMany({ _id: id })
@@ -306,3 +351,61 @@ exports.getUserList = (req, res) => {
     }
   });
 };
+
+exports.getAvatar = async (req, res) => {
+  fs.readFile(req.query.avatar, (err, data) => {
+    res.writeHead(200, { 'Content-Type': 'image/png' });
+    res.end(data);
+  })
+}
+
+exports.uploadAvatar = (req, res) => {
+  const _id = req.query._id
+  upload(req, res, (err) => {
+    if (err instanceof multer.MulterError) {
+      // 发生错误
+      responseClient(res)
+    } else if (err) {
+      // 发生错误
+      responseClient(res)
+    }
+    User.findOne({ _id }, { id: 1, avatar: 1 }, (error, result) => {
+      if (error) {
+        responseClient(res)
+      } else {
+        if (result.avatar !== "user") {
+          const oldPath = req.file.path
+          const newPath = result.avatar.split("=")[1]
+          fs.rename(oldPath, newPath, err => {
+            if (err) {
+              responseClient(res)
+            } else {
+              responseClient(res, 200, 0, '保存成功');
+            }
+          })
+        } else {
+          const oldPath = req.file.path
+          const newPath = 'uploads/avatar/' + result.id + "." + req.file.originalname.split(".")[1]
+          fs.rename(oldPath, newPath, err => {
+            if (err) {
+              responseClient(res)
+            } else {
+              console.log(oldPath)
+              console.log(newPath)
+              console.log(_id)
+              User.updateOne(
+                { _id },
+                { avatar: "http://localhost:3000/getAvatar?avatar=" + newPath }
+              ).then(data => {
+                responseClient(res, 200, 0, '保存成功');
+              }).catch(e => {
+                responseClient(res);
+              })
+
+            }
+          })
+        }
+      }
+    })
+  })
+}

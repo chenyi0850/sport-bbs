@@ -1,6 +1,11 @@
 <template>
   <div class="write">
-    <el-tabs tab-position="left" v-model="activeName">
+    <el-tabs
+      tab-position="top"
+      :style="isMobileOrPc ? '' : 'height: 730px'"
+      v-model="activeName"
+      type="border-card"
+    >
       <el-tab-pane label="发布帖子" name="first" :lazy="true">
         <write-article
           :isShare="false"
@@ -12,7 +17,7 @@
         <el-upload
           class="avatar-uploader"
           :data="dataObj"
-          :action="`http://localhost:3000/uploadVideo?user_id=${user_id}`"
+          :action="`api/uploadVideo?user_id=${user_id}`"
           list-type="picture-card"
           :show-file-list="false"
           :on-error="handleError"
@@ -52,6 +57,7 @@
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
 import WriteArticle from "@/components/writeArticle.vue";
+import { isMobileOrPc } from "@/utils/utils";
 // import WE from 'wangeditor'
 
 @Component({
@@ -60,6 +66,7 @@ import WriteArticle from "@/components/writeArticle.vue";
   },
 })
 export default class Write extends Vue {
+  isMobileOrPc: boolean = isMobileOrPc();
   activeName = "";
   user_id = JSON.parse(window.localStorage.userInfo)._id;
   qiniuUrl: string = "https://up.demoworld.com/"; // 个人七牛访问前缀
@@ -82,6 +89,8 @@ export default class Write extends Vue {
     console.log(123, response);
     if (response.message === "保存成功") {
       this.$message.success("视频上传成功！");
+      // this.imgFlag = false;
+      // this.percent = 0;
       this.$https.post(this.$urls.addTimeAxis, {
         user_id: this.user_id,
         title: response.data.name,
@@ -90,6 +99,12 @@ export default class Write extends Vue {
         content: response.data.src,
         type: 5,
       });
+      return;
+    }
+    if (response.code === 1) {
+      this.imgFlag = false;
+      this.percent = 0;
+      this.$message.error("登录过期，请重新登录");
       return;
     }
     this.imgFlag = false;
@@ -140,7 +155,7 @@ export default class Write extends Vue {
     if (this.$route.query.share) {
       this.activeName = "third";
     } else {
-      this.activeName = "first"
+      this.activeName = "first";
     }
     if (this.$route.query.article_id) {
       const data: any = await this.$https.post(this.$urls.getArticleDetail, {
@@ -155,7 +170,7 @@ export default class Write extends Vue {
         this.activeName = "first";
       }
     }
-    this.articleDetLoad = true
+    this.articleDetLoad = true;
   }
 }
 </script>

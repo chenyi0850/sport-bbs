@@ -68,6 +68,7 @@ exports.getCoverSrc = async (req, res) => {
     })
 }
 
+
 exports.getVideosList = async (req, res) => {
     let pageNum = parseInt(req.query.pageNum) || 1;
     let pageSize = parseInt(req.query.pageSize) || 10;

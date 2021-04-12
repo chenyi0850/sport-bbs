@@ -107,7 +107,6 @@ export default class myPublished extends Vue {
     //   if (element.coverSrc)
     //     element.coverSrc = "http://localhost:3000/" + element.coverSrc;
     // });
-    console.log(data);
     this.isLoading = false;
     this.publishedList = [...this.publishedList, ...data.list];
     this.total = data.count;
