@@ -4,7 +4,7 @@
     <Nav v-if="isShowNav" />
     <div class=" layout">
       <router-view />
-      <Slider v-if="isShowSlider" :tagType="$route.path"></Slider>
+      <Slider v-if="isShowSlider" :tagType="$route.path === '/searchResult' ? 'articles' : $route.path"></Slider>
     </div>
     <ArrowUp></ArrowUp>
     <Footer v-show="isShowNav"></Footer>
@@ -59,7 +59,8 @@ export default class App extends Vue {
       val.path === "/project" ||
       val.path === "/equipment" ||
       val.path === "/message" ||
-      val.path === "/user"
+      val.path === "/user" ||
+      val.path === "/searchResult"
     ) {
       this.isShowSlider = true;
     } else {

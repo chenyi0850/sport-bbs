@@ -153,7 +153,7 @@ exports.getArticleList = (req, res) => {
     if (keyword) {
       const reg = new RegExp(keyword, 'i'); //不区分大小写
       conditions = {
-        $or: [{ title: { $regex: reg } }, { desc: { $regex: reg } }],
+        $or: [{ title: { $regex: reg } }, { desc: { $regex: reg } }, {content: { $regex: reg }}],
       };
     }
   } else if (state) {
@@ -168,6 +168,7 @@ exports.getArticleList = (req, res) => {
               { title: { $regex: reg } },
               { desc: { $regex: reg } },
               { keyword: { $regex: reg } },
+              {content: { $regex: reg }}
             ],
           },
         ],

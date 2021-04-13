@@ -17,6 +17,14 @@
       <div class="item">
         <div class="num">123</div>收获喜欢
       </div> -->
+      <el-input placeholder="请输入关键字" v-model="keyword" class="input-search">
+    <!-- <el-select v-model="select" slot="prepend" placeholder="请选择">
+      <el-option label="餐厅名" value="1"></el-option>
+      <el-option label="订单号" value="2"></el-option>
+      <el-option label="用户电话" value="3"></el-option>
+    </el-select> -->
+    <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
+     </el-input>
     </div>
     <div class="tags">
       <div class="title">标签</div>
@@ -61,9 +69,21 @@ export default class Slider extends Vue {
     pageNum: 1,
     pageSize: 100
   };
+  private keyword: string =  ""
   @Prop({default: ""}) tagType!: string
   mounted(): void {
     this.handleSearch();
+  }
+
+  private search() {
+    if(!this.keyword) {
+      this.$message({
+        type: "warning",
+        message: "请输入关键字"
+      })
+      return
+    }
+    window.open("/searchResult?keyword=" + this.keyword, "_blank")
   }
 
   private async handleSearch(): Promise<void> {

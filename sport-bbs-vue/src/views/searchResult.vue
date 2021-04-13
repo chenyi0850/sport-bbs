@@ -1,12 +1,6 @@
 <template>
   <div class="left clearfix">
-    <el-carousel height="200px" type="card">
-      <el-carousel-item v-for="item in 4" :key="item">
-        <!-- <h3 class="small">{{ "我是标题" + item }}</h3> -->
-        <img :src=carouselImgs alt="轮播图">
-      </el-carousel-item>
-    </el-carousel>
-    <h3 v-if="params.tag_id" class="left-title">{{ tag_name }} 相关的新闻：</h3>
+    <h3 v-if="params.keyword" class="left-title">"{{ params.keyword }}" 搜索结果：</h3>
     <ul class="articles-list" id="list">
       <transition-group name="el-fade-in">
         <li
@@ -91,18 +85,17 @@ const lazyload = throttle(() => {
     LoadingCustom,
   },
 })
-export default class News extends Vue {
+export default class SearchRes extends Vue {
   // initial data
   private isLoadEnd: boolean = false;
   private isLoading: boolean = false;
   private articlesList: Array<object> = [];
   private total: number = 0;
   private tag_name: string = decodeURI(getQueryStringByName("tag_name"));
-  private params: ArticlesParams = {
+  private params = {
     keyword: "",
-    likes: "", // 是否是热门文章
+    likes: "", // 是否是热门文章, "" => 最新，"1" => 热门，"2" => 最多查看，"3" => 最多点赞，"4" => 最多评论
     state: 1, // 文章发布状态 => 0 草稿，1 已发布,'' 代表所有文章
-    type: 1,
     tag_id: getQueryStringByName("tag_id"),
     category_id: getQueryStringByName("category_id"),
     pageNum: 1,
@@ -113,14 +106,9 @@ export default class News extends Vue {
       ? "http://localhost:3001/articleDetail?article_id="
       : "https://biaochenxuying.cn/articleDetail?article_id=";
 
-
-
-  carouselImgs: string = require("../assets/Carousel.jpg")
-
-  
-
   // lifecycle hook
   mounted(): void {
+    document.title = `"${this.$route.query.keyword}"搜索结果`;
     this.handleSearch();
     window.onscroll = () => {
       if (getScrollTop() + getWindowHeight() > getDocumentHeight() - 150) {
@@ -156,6 +144,8 @@ export default class News extends Vue {
   }
 
   private async handleSearch(): Promise<void> {
+    console.log(this.params)
+    this.params.keyword = this.$route.query.keyword + ''
     this.isLoading = true;
     const data: ArticlesData = await this.$https.get(
       this.$urls.getArticleList,
@@ -172,8 +162,8 @@ export default class News extends Vue {
     });
     if (data.list.length === 0 || this.total === this.articlesList.length) {
       this.isLoadEnd = true;
-      document.removeEventListener("scroll", () => {});
-      window.onscroll = null;
+      // document.removeEventListener("scroll", () => {});
+      // window.onscroll = null;
     }
   }
 }
@@ -181,31 +171,6 @@ export default class News extends Vue {
 
 <style lang="less" scoped>
 .left {
-  .tag-row {
-    padding: 10px 0;
-    .el-tag {
-      margin-right: 10px;
-    }
-    .el-tag:hover {
-      cursor: pointer;
-    }
-  }
-  .el-carousel__item h3 {
-    color: #475669;
-    font-size: 14px;
-    opacity: 0.75;
-    line-height: 200px;
-    margin: 0;
-  }
-
-  .el-carousel__item:nth-child(2n) {
-    background-color: #99a9bf;
-  }
-
-  .el-carousel__item:nth-child(2n + 1) {
-    background-color: #d3dce6;
-  }
-
   .articles-list {
     margin: 0;
     padding: 0;

@@ -58,6 +58,7 @@
 import { Component, Prop, Vue } from "vue-property-decorator";
 import WriteArticle from "@/components/writeArticle.vue";
 import { isMobileOrPc } from "@/utils/utils";
+import { warn } from "node_modules/vue-class-component/lib/util";
 // import WE from 'wangeditor'
 
 @Component({
@@ -152,6 +153,13 @@ export default class Write extends Vue {
   }
 
   async created(): Promise<void> {
+    if(!this.user_id) {
+      this.$message({
+        type: "warning",
+        message: "登录才能发帖，请先登录！"
+      })
+      return
+    }
     if (this.$route.query.share) {
       this.activeName = "third";
     } else {

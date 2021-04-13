@@ -71,19 +71,25 @@ export default new Router({
       path: "/user",
       name: "user",
       component: () => 
-        import(/* webpackChunkName: "articleDetail" */ "./views/user.vue")
+        import(/* webpackChunkName: "user" */ "./views/user.vue")
     },
     {
       path: "/write",
       name: "write",
       component: () =>
-        import(/* webpackChunkName: "articleDetail" */ "./views/write.vue")
-    }
+        import(/* webpackChunkName: "write" */ "./views/write.vue")
+    },
     // {
     //   path: "*",
     //   redirect: {
     //     name: "home"
     //   }
     // }
+    {
+      path: "/searchResult",
+      name: "searchResult",
+      component: () =>
+        import(/* webpackChunkName: "searchResult" */ "./views/searchResult.vue")
+    }
   ]
 });
