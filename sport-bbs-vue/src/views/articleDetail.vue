@@ -317,11 +317,11 @@ export default class ArticleDetail extends Vue {
     );
     this.isLoading = false;
     this.articleDetail = data;
-    const article = markdown.marked(data.content);
-    article.then((res: any) => {
-      this.articleDetail.content = res.content;
-      this.articleDetail.toc = res.toc;
-    });
+    // const article = markdown.marked(data.content);
+    // article.then((res: any) => {
+    //   this.articleDetail.content = res.content;
+    //   this.articleDetail.toc = res.toc;
+    // });
     if (this.articleDetail.auth_logo === "nba") {
       this.authLogo = require("../assets/nbaLogo.jpg");
     }

@@ -634,3 +634,59 @@ exports.getArticleDetail = (req, res) => {
       });
   }
 };
+
+
+const fs = require("fs")
+const multer = require('multer')
+const upload = multer({ dest: 'uploads/avatar' }).single('file')
+exports.uploadImg = (req, res) => {
+  // const _id = req.query._id
+  let responseData = {}
+  upload(req, res, (err) => {
+    if (err instanceof multer.MulterError) {
+      // 发生错误
+      responseClient(res)
+    } else if (err) {
+      // 发生错误
+      responseClient(res)
+    }
+    User.findOne({ _id }, { id: 1, avatar: 1 }, (error, result) => {
+      if (error) {
+        responseClient(res)
+      } else {
+        if (result.avatar !== "user") {
+          const oldPath = req.file.path
+          const newPath = result.avatar.split("=")[1]
+          fs.rename(oldPath, newPath, err => {
+            if (err) {
+              responseClient(res)
+            } else {
+              responseClient(res, 200, 0, '保存成功');
+            }
+          })
+        } else {
+          const oldPath = req.file.path
+          const newPath = 'uploads/avatar/' + result.id + "." + req.file.originalname.split(".")[1]
+          fs.rename(oldPath, newPath, err => {
+            if (err) {
+              responseClient(res)
+            } else {
+              console.log(oldPath)
+              console.log(newPath)
+              console.log(_id)
+              User.updateOne(
+                { _id },
+                { avatar: "http://localhost:3000/getAvatar?avatar=" + newPath }
+              ).then(data => {
+                responseClient(res, 200, 0, '保存成功');
+              }).catch(e => {
+                responseClient(res);
+              })
+
+            }
+          })
+        }
+      }
+    })
+  })
+}

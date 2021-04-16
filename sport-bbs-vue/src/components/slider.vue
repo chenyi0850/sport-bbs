@@ -1,8 +1,6 @@
 <template>
   <div class="right slider">
-    <img class="right-logo"
-         src="../assets/userLogo.png"
-         alt="">
+    <img class="right-logo" src="../assets/userLogo.png" alt="" />
     <div class="title">Sport BBS</div>
     <div class="right-content">
       <!-- <div class="item">
@@ -17,38 +15,49 @@
       <div class="item">
         <div class="num">123</div>收获喜欢
       </div> -->
-      <el-input placeholder="请输入关键字" v-model="keyword" class="input-search">
-    <!-- <el-select v-model="select" slot="prepend" placeholder="请选择">
+      <el-input
+        placeholder="请输入关键字"
+        v-model="keyword"
+        class="input-search"
+        style="width: 300px"
+      >
+        <!-- <el-select v-model="select" slot="prepend" placeholder="请选择">
       <el-option label="餐厅名" value="1"></el-option>
       <el-option label="订单号" value="2"></el-option>
       <el-option label="用户电话" value="3"></el-option>
     </el-select> -->
-    <el-button slot="append" icon="el-icon-search" @click="search"></el-button>
-     </el-input>
+        <el-button
+          slot="append"
+          icon="el-icon-search"
+          @click="search"
+        ></el-button>
+      </el-input>
     </div>
     <div class="tags">
       <div class="title">标签</div>
-      <router-link v-for="item in list"
-                   class="item"
-                   :key="item._id"
-                   :to="`${tagType}?tag_id=${item._id}&tag_name=${item.name}&category_id=`">
-        <span :key="item._id">{{item.name}}</span>
+      <router-link
+        v-for="item in list"
+        class="item"
+        :key="item._id"
+        :to="`${tagType}?tag_id=${item._id}&tag_name=${item.name}&category_id=`"
+      >
+        <span :key="item._id">{{ item.name }}</span>
       </router-link>
     </div>
     <div class="introduce">
       <div class="title">热门帖子</div>
       <div class="content">
-        <!-- <img style="width:100%;"
-             src="../assets/BiaoChenXuYing.png"
-             alt="热门帖子" /> -->
+        <div v-for="item in articleList" :key="item._id">
+          <a :href="href + item._id" class="hot-link" target="_blank">{{ item.title }}</a>
+        </div>
       </div>
     </div>
     <div class="introduce">
       <div class="title">手机扫码访问</div>
       <div class="content">
-        <!-- <img style="width:100%;"
-             src="../assets/YingHeZaHuoPu.png"
-             alt="二维码" /> -->
+        <img style="width:200px; height:200px; margin: 0 auto; display: block"
+             src="../assets/chitu_500.png"
+             alt="二维码" />
       </div>
     </div>
   </div>
@@ -56,7 +65,8 @@
 
 <script lang="ts">
 import { Component, Prop, Vue } from "vue-property-decorator";
-import { Params, TagsData } from "@/types/index";
+import { ArticlesData, Params, TagsData } from "@/types/index";
+import { getQueryStringByName } from "@/utils/utils";
 
 @Component
 export default class Slider extends Vue {
@@ -67,32 +77,51 @@ export default class Slider extends Vue {
   private params: Params = {
     keyword: "",
     pageNum: 1,
-    pageSize: 100
+    pageSize: 100,
   };
-  private keyword: string =  ""
-  @Prop({default: ""}) tagType!: string
+  private keyword: string = "";
+  private articleList: Array<object> = [];
+  private href: string =
+    process.env.NODE_ENV === "development"
+      ? "http://localhost:3001/articleDetail?article_id="
+      : "https://biaochenxuying.cn/articleDetail?article_id=";
+  @Prop({ default: "" }) tagType!: string;
   mounted(): void {
     this.handleSearch();
   }
 
   private search() {
-    if(!this.keyword) {
+    if (!this.keyword) {
       this.$message({
         type: "warning",
-        message: "请输入关键字"
-      })
-      return
+        message: "请输入关键字",
+      });
+      return;
     }
-    window.open("/searchResult?keyword=" + this.keyword, "_blank")
+    window.open("/searchResult?keyword=" + this.keyword, "_blank");
   }
 
   private async handleSearch(): Promise<void> {
     this.isLoading = true;
     const data: TagsData = await this.$https.get(this.$urls.getTagList, {
-      params: this.params
+      params: this.params,
     });
+    const data2: ArticlesData = await this.$https.get(
+      this.$urls.getArticleList,
+      {
+        keyword: "",
+        likes: "1", // 是否是热门文章, "" => 最新，"1" => 热门，"2" => 最多查看，"3" => 最多点赞，"4" => 最多评论
+        state: 1, // 文章发布状态 => 0 草稿，1 已发布,'' 代表所有文章
+        type: 2,
+        tag_id: getQueryStringByName("tag_id"),
+        category_id: getQueryStringByName("category_id"),
+        pageNum: 1,
+        pageSize: 10,
+      }
+    );
     this.isLoading = false;
 
+    this.articleList = data2.list;
     this.list = [...this.list, ...data.list];
     this.total = data.count;
     this.params.pageNum++;
@@ -151,7 +180,17 @@ export default class Slider extends Vue {
       color: #333;
       line-height: 26px;
       text-align: left;
-      padding: 20px 0;
+      padding: 20px;
+      .hot-link {
+        color: #909399;
+        cursor: pointer;
+        font-size: 14px;
+        font-weight: 500;
+        &:hover {
+          color: #6b6b6e;
+          text-decoration-line: underline;
+        }
+      }
     }
     .footer {
       padding-bottom: 10px;

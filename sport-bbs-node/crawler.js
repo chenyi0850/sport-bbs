@@ -7,7 +7,7 @@ const https = require('https');
 
 
 
-function getArticle(url) {
+function getNbaArticle(url) {
     https.get(url, (res) => {
         let chunks = [];
         res.on("data", (chunk) => {
@@ -59,10 +59,38 @@ async function getData() {
         // 参数idx是当前遍历的元素的索引，ele就是当前便利的DOM元素
         // 获取新闻网页链接
         console.log($(ele).attr('href').replace('http', 'https'))
-        getArticle($(ele).attr('href').replace('http', 'https'))
+        getNbaArticle($(ele).attr('href').replace('http', 'https'))
     });
 }
 // getData()
+
+async function getAthletics() {
+    const data = await superagent.get('http://www.athletics.org.cn/news/')
+    let $ = cheerio.load(data.text)
+    $('#tab1 div.row').each((idx, ele) => {
+        console.log($(ele).find("h2 a").attr('href'), $(ele).find(".news-info-right p").text())
+        getArticles($(ele).find("h2 a").attr('href'), $(ele).find("h2 a").text(),"田径", "athletics", ["6079a7bd03ad7177382e69e8"], $(ele).find(".news-info-right p").text())
+    })
+    console.log($('#tab1 div.row').length)
+}
+getAthletics()
+
+async function getArticles(url, title, author, auth_logo, tags, desc) {
+    const data = await superagent.get(url)
+    let $ = cheerio.load(data.text)
+    let news = {
+        title,
+        author,
+        auth_logo,
+        tags,
+        desc
+    }
+    news.img_url = $('.img-cover').attr('src')
+    news.content = $(".main-content p").text()
+    // news.content = news.content.replace(/\t/g, "")
+    // news.content = news.content.replace('\t\n', "")
+    const data2 = await Article.create(news)
+}
 
 
 

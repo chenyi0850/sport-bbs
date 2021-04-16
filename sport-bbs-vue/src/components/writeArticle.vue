@@ -75,6 +75,7 @@ export default class WriteArticle extends Vue {
     tags: "",
     content: "",
     desc: "",
+    img_url: ""
   };
   // 表单校验
   private rules: object = {
@@ -127,6 +128,15 @@ export default class WriteArticle extends Vue {
   }
   // 富文本内容更新
   updateContent(html: string, text: string) {
+    let img = html.match(/<img.*?(?:>|\/>)/)
+    
+    if(img) {
+      img = img[0].match(/src=[\'\"]?([^\'\"]*)[\'\"]?/i)
+      if(img) {
+        let img_url = img[0].substr(5)
+        this.article.img_url = img_url
+      }
+    }
     this.article.content = html;
     if (text.length >= 102) {
       this.article.desc = text.slice(0, 102) + "......";
@@ -186,6 +196,7 @@ export default class WriteArticle extends Vue {
       tags: this.article.tags.slice(0, this.article.tags.length - 1),
       type: this.isShare ? 3 : 2,
       buy_link: this.isShare ? this.article.href : "",
+      img_url: this.article.img_url
     };
     const data = await this.$https.post(this.$urls.addArticle, params);
 

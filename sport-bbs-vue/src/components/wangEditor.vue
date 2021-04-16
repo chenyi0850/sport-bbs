@@ -44,6 +44,8 @@ export default {
     };
     // 配置不能全屏
     editor.config.showFullScreen = false
+    // editor.config.uploadImgShowBase64 = true
+    // editor.config.uploadImgServer = '/api/uploadImg'
     // 创建编辑器
     editor.create();
     this.editor = editor;
