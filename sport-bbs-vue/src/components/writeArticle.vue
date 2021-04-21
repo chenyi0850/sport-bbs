@@ -1,5 +1,11 @@
 <template>
-  <el-form label-width="70px" :model="article" :rules="rules" ref="ruleForm" :label-position="isMobileOrPc ? 'top' : ''">
+  <el-form
+    label-width="70px"
+    :model="article"
+    :rules="rules"
+    ref="ruleForm"
+    :label-position="isMobileOrPc ? 'top' : ''"
+  >
     <el-form-item label="购买链接" prop="href" v-if="isShare">
       <el-input v-model="article.href"></el-input>
     </el-form-item>
@@ -67,7 +73,7 @@ export default class WriteArticle extends Vue {
   @Prop({ default: false }) isShare!: boolean;
   @Prop({ default: "" }) articleDetail: any;
 
-  private isMobileOrPc: boolean = isMobileOrPc()
+  private isMobileOrPc: boolean = isMobileOrPc();
   // 文章表单
   private article: any = {
     href: "",
@@ -75,7 +81,7 @@ export default class WriteArticle extends Vue {
     tags: "",
     content: "",
     desc: "",
-    img_url: ""
+    img_url: "",
   };
   // 表单校验
   private rules: object = {
@@ -116,7 +122,15 @@ export default class WriteArticle extends Vue {
   tagsInput: object[] = [];
   // 选中标签
   addTag(name: string, type: string, id: any): void {
+    let bool = false;
+    this.tagsInput.forEach((val: any) => {
+      if (val.name === name) {
+        bool = true;
+      }
+    });
+    if (bool) return;
     this.tagsInput.push({
+      id,
       name,
       type,
     });
@@ -124,17 +138,18 @@ export default class WriteArticle extends Vue {
   }
   // 清除选中标签
   handleTagClose(tag: any) {
+    this.article.tags = this.article.tags.replace(tag.id + ",", "");
     this.tagsInput.splice(this.tagsInput.indexOf(tag), 1);
   }
   // 富文本内容更新
   updateContent(html: string, text: string) {
-    let img = html.match(/<img.*?(?:>|\/>)/)
-    
-    if(img) {
-      img = img[0].match(/src=[\'\"]?([^\'\"]*)[\'\"]?/i)
-      if(img) {
-        let img_url = img[0].substr(5)
-        this.article.img_url = img_url
+    let img = html.match(/<img.*?(?:>|\/>)/);
+
+    if (img) {
+      img = img[0].match(/src=[\'\"]?([^\'\"]*)[\'\"]?/i);
+      if (img) {
+        let img_url = img[0].substr(5);
+        this.article.img_url = img_url;
       }
     }
     this.article.content = html;
@@ -168,9 +183,7 @@ export default class WriteArticle extends Vue {
   async getTagList(): Promise<void> {
     this.tags = (
       await this.$https.get(this.$urls.getTagList, {
-        keyword: "",
-        pageNum: 1,
-        pageSize: 100,
+        params: { keyword: "", pageNum: 1, pageSize: 100 },
       })
     ).list;
   }
@@ -196,7 +209,7 @@ export default class WriteArticle extends Vue {
       tags: this.article.tags.slice(0, this.article.tags.length - 1),
       type: this.isShare ? 3 : 2,
       buy_link: this.isShare ? this.article.href : "",
-      img_url: this.article.img_url
+      img_url: this.article.img_url,
     };
     const data = await this.$https.post(this.$urls.addArticle, params);
 

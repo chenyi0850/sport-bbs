@@ -6,7 +6,7 @@
       <el-tag type="success" @click="sort('view')">最多查看</el-tag>
       <el-tag type="info" @click="sort('like')">最多点赞</el-tag>
       <el-tag type="warning" @click="sort('comment')">最多评论</el-tag>
-      <el-button @click="toWrite">我要发贴</el-button>
+      <el-button @click="toWrite" v-if="!isMobileOrPc">我要发贴</el-button>
     </div>
     <h3 v-if="params.tag_id" class="left-title">{{ tag_name }} 相关的帖子：</h3>
     <ul class="articles-list" id="list">
@@ -56,6 +56,7 @@ import {
   getWindowHeight,
   getQueryStringByName,
   timestampToTime,
+  isMobileOrPc
 } from "@/utils/utils";
 import LoadEnd from "@/components/loadEnd.vue";
 import LoadingCustom from "@/components/loading.vue";
@@ -97,6 +98,7 @@ export default class Articles extends Vue {
   // initial data
   private isLoadEnd: boolean = false;
   private isLoading: boolean = false;
+  private isMobileOrPc: boolean = isMobileOrPc();
   private articlesList: Array<object> = [];
   private total: number = 0;
   private tag_name: string = decodeURI(getQueryStringByName("tag_name"));

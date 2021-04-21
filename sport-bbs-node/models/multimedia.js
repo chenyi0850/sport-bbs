@@ -16,7 +16,7 @@ const multimediaSchema = new mongoose.Schema({
     // 上传用户id
 	user_id: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
     
-    // 文件类型 => 1: 视频，2: 图片
+    // 文件类型 => 1: 篮球，2: 足球，3：田径，4：其他
     type: { type: Number, default: 1 },
 
     // 文件保存路径

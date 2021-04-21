@@ -31,7 +31,9 @@ import {
   Upload,
   Progress,
   Tooltip,
-  Badge
+  Badge,
+  Select,
+  Option,
 } from "element-ui";
 import CollapseTransition from "element-ui/lib/transitions/collapse-transition";
 import mixin from "./mixins";
@@ -67,6 +69,8 @@ Vue.use(Upload);
 Vue.use(Progress);
 Vue.use(Tooltip)
 Vue.use(Badge)
+Vue.use(Select);
+Vue.use(Option)
 Vue.use(Loading.directive);
 Vue.use(VueCoreVideoPlayer, {
   lang: 'zh-CN'

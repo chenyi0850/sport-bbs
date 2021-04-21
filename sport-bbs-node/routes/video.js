@@ -23,7 +23,7 @@ exports.uploadVideo = (req, res) => {
         let tempMultimedia = new Multimedia({
             user_id: req.query.user_id,
             name: originalname,
-            type: 1,
+            type: req.query.type,
             src: videoPath
         })
         tempMultimedia
@@ -70,10 +70,14 @@ exports.getCoverSrc = async (req, res) => {
 
 
 exports.getVideosList = async (req, res) => {
+    console.log(req.query)
     let pageNum = parseInt(req.query.pageNum) || 1;
     let pageSize = parseInt(req.query.pageSize) || 10;
     let skip = pageNum - 1 < 0 ? 0 : (pageNum - 1) * pageSize;
-    let condition = {}
+    let type = req.query.type
+    let condition = {
+        type
+    }
     let options = {
         skip: skip,
         limit: pageSize,

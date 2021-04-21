@@ -1,5 +1,5 @@
 <template>
-  <div class="user left">
+  <div class="user left" :class="{ 'user-mobile': isMobile }">
     <el-card>
       <div class="header">
         <div class="avatar">
@@ -14,8 +14,6 @@
           <p>
             {{ userInfo.introduce }}
           </p>
-        </div>
-        <div>
           <el-button @click="dialogVisible = true">编辑个人资料</el-button>
         </div>
       </div>
@@ -222,7 +220,7 @@ export default {
         name: data.name,
         avatar: data.avatar,
         introduce: data.introduce,
-        phone: data.phone
+        phone: data.phone,
       };
       // console.log(userInfo);
       this.$store.commit("SAVE_USER", {
@@ -233,15 +231,14 @@ export default {
         message: "保存成功",
         type: "success",
       });
-      this.userInfo = JSON.parse(JSON.stringify(this.params))
+      this.userInfo = JSON.parse(JSON.stringify(this.params));
       this.dialogVisible = false;
     },
   },
   created() {
     this.userInfo = JSON.parse(window.localStorage.userInfo);
-    this.params = JSON.parse(JSON.stringify(this.userInfo))
+    this.params = JSON.parse(JSON.stringify(this.userInfo));
     this.imageUrl = this.userInfo.avatar;
-    console.log(this.userInfo);
   },
 };
 </script>
@@ -293,5 +290,13 @@ export default {
     display: block;
   }
   // 上传头像结束
+}
+.user-mobile {
+  /deep/ .el-tabs__item {
+    padding: 0 15px;
+  }
+  /deep/ .el-card__body {
+    padding: 10px;
+  }
 }
 </style>

@@ -14,7 +14,7 @@
         hide-timestamp
       >
         <router-link
-          :to="`/articleDetail?article_id=${item.title_id}`"
+          :to="item.type === (5 || 6 || 7 || 8) ? `videoDetail?src=${item.content}&coverSrc=${item.coverSrc}` : `/articleDetail?article_id=${item.title_id}`"
           target="_blank"
         >
           <h3 class="item">{{ item.action }}  <span class="title">{{ item.title }}</span></h3>
@@ -117,6 +117,7 @@ export default class Archive extends Vue {
     });
     this.isLoading = false;
     this.timeAxisList = [...this.timeAxisList, ...data.list];
+    console.log(this.timeAxisList)
     this.total = data.count;
     this.params.pageNum++;
     if (data.list.length === 0 || this.total === this.timeAxisList.length) {

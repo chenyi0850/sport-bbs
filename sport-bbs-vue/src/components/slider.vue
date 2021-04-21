@@ -48,16 +48,20 @@
       <div class="title">热门帖子</div>
       <div class="content">
         <div v-for="item in articleList" :key="item._id">
-          <a :href="href + item._id" class="hot-link" target="_blank">{{ item.title }}</a>
+          <a :href="href + item._id" class="hot-link" target="_blank">{{
+            item.title
+          }}</a>
         </div>
       </div>
     </div>
     <div class="introduce">
       <div class="title">手机扫码访问</div>
       <div class="content">
-        <img style="width:200px; height:200px; margin: 0 auto; display: block"
-             src="../assets/chitu_500.png"
-             alt="二维码" />
+        <img
+          style="width: 200px; height: 200px; margin: 0 auto; display: block"
+          src="../assets/chitu_500.png"
+          alt="二维码"
+        />
       </div>
     </div>
   </div>
@@ -102,24 +106,24 @@ export default class Slider extends Vue {
   }
 
   private async handleSearch(): Promise<void> {
-    this.isLoading = true;
     const data: TagsData = await this.$https.get(this.$urls.getTagList, {
       params: this.params,
     });
     const data2: ArticlesData = await this.$https.get(
       this.$urls.getArticleList,
       {
-        keyword: "",
-        likes: "1", // 是否是热门文章, "" => 最新，"1" => 热门，"2" => 最多查看，"3" => 最多点赞，"4" => 最多评论
-        state: 1, // 文章发布状态 => 0 草稿，1 已发布,'' 代表所有文章
-        type: 2,
-        tag_id: getQueryStringByName("tag_id"),
-        category_id: getQueryStringByName("category_id"),
-        pageNum: 1,
-        pageSize: 10,
+        params: {
+          keyword: "",
+          likes: "1", // 是否是热门文章, "" => 最新，"1" => 热门，"2" => 最多查看，"3" => 最多点赞，"4" => 最多评论
+          state: 1, // 文章发布状态 => 0 草稿，1 已发布,'' 代表所有文章
+          type: 2,
+          // tag_id: getQueryStringByName("tag_id"),
+          // category_id: getQueryStringByName("category_id"),
+          pageNum: 1,
+          pageSize: 10,
+        },
       }
     );
-    this.isLoading = false;
 
     this.articleList = data2.list;
     this.list = [...this.list, ...data.list];

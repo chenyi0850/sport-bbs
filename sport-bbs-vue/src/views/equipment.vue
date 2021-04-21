@@ -1,6 +1,6 @@
 <template>
   <div class="equipment left">
-    <div class="products">
+    <div class="products" :class="{ 'products-mobile': isMobileOrPc }">
       <div class="title"><span class="titleText">精品推荐</span></div>
       <div class="equip-list">
         <div class="left-btn" @click="slide('left')"></div>
@@ -45,7 +45,7 @@
         <el-tag type="success" @click="sort('view')">最多查看</el-tag>
         <el-tag type="info" @click="sort('like')">最多点赞</el-tag>
         <el-tag type="warning" @click="sort('comment')">最多评论</el-tag>
-        <el-button @click="toWrite">我要分享</el-button>
+        <el-button @click="toWrite" v-if="!isMobileOrPc">我要分享</el-button>
       </div>
       <h3 v-if="params.tag_id" class="left-title">{{ tag_name }} 装备：</h3>
       <ul class="articles-list" id="list">
@@ -154,12 +154,23 @@ export default class Equipment extends Vue {
   private products = [];
   private left: number = 0;
   private slide(type: string): void {
-    if (type === "right") {
-      if (this.left === -2490) this.left = 0;
-      else this.left -= 830;
+    if (!isMobileOrPc) {
+      if (type === "right") {
+        if (this.left === -2490) this.left = 0;
+        else this.left -= 830;
+      } else {
+        if (this.left === 0) this.left = -2490;
+        else this.left += 830;
+      }
     } else {
-      if (this.left === 0) this.left = -2490;
-      else this.left += 830;
+      let width = document.getElementsByClassName("equip-container")[0].offsetWidth / 4
+      if (type === "right") {
+        if (this.left === -3 * width) this.left = 0;
+        else this.left -= width;
+      } else {
+        if (this.left === 0) this.left = -3 * width;
+        else this.left += width;
+      }
     }
   }
 
@@ -293,7 +304,7 @@ export default class Equipment extends Vue {
       display: inline-block;
       padding: 10px 22px;
       font-size: 20px;
-      cursor: pointer;
+      // cursor: pointer;
     }
   }
   .equip-list {
@@ -488,6 +499,24 @@ export default class Equipment extends Vue {
         span {
           margin-right: 10px;
           color: #666;
+        }
+      }
+    }
+  }
+  .products-mobile {
+    .equip-list {
+      width: 100%;
+      .equip-container {
+        width: 400%;
+        .equip-card {
+          width: 12.5%;
+          .price {
+            .t1 {
+              .num {
+                font-size: 20px;
+              }
+            }
+          }
         }
       }
     }

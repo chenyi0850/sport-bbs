@@ -1,9 +1,10 @@
 <template>
   <div class="left clearfix">
     <el-carousel height="200px" type="card">
-      <el-carousel-item v-for="item in 4" :key="item">
-        <!-- <h3 class="small">{{ "我是标题" + item }}</h3> -->
-        <img :src=carouselImgs alt="轮播图">
+      <el-carousel-item v-for="item in articlesList.slice(0,5)" :key="item._id">
+        
+        <img :src="item.img_url" alt="轮播图" width="100%" height="90%" @click="articleDetail(item._id)">
+        <h3 class="small">{{ item.title }}</h3>
       </el-carousel-item>
     </el-carousel>
     <h3 v-if="params.tag_id" class="left-title">{{ tag_name }} 相关的新闻：</h3>
@@ -118,7 +119,7 @@ export default class News extends Vue {
   carouselImgs: string = require("../assets/Carousel.jpg")
 
   
-
+  
   // lifecycle hook
   mounted(): void {
     this.handleSearch();
@@ -145,14 +146,14 @@ export default class News extends Vue {
 
   // method
   private articleDetail(id: string): void {
-    // console.log("`id`", `/articleDetail?article_id=${id}`);
-    // let url: string = "";
-    // if (process.env.NODE_ENV === "development") {
-    //   url = "http://localhost:3001/articleDetail?";
-    // } else {
-    //   url = "https://biaochenxuying.cn/articleDetail?";
-    // }
-    // window.open(url + `article_id=${id}`);
+    console.log("`id`", `/articleDetail?article_id=${id}`);
+    let url: string = "";
+    if (process.env.NODE_ENV === "development") {
+      url = "http://localhost:3001/articleDetail?";
+    } else {
+      url = "https://biaochenxuying.cn/articleDetail?";
+    }
+    window.open(url + `article_id=${id}`);
   }
 
   private async handleSearch(): Promise<void> {
@@ -176,6 +177,7 @@ export default class News extends Vue {
       window.onscroll = null;
     }
   }
+  
 }
 </script>
 
@@ -194,16 +196,7 @@ export default class News extends Vue {
     color: #475669;
     font-size: 14px;
     opacity: 0.75;
-    line-height: 200px;
     margin: 0;
-  }
-
-  .el-carousel__item:nth-child(2n) {
-    background-color: #99a9bf;
-  }
-
-  .el-carousel__item:nth-child(2n + 1) {
-    background-color: #d3dce6;
   }
 
   .articles-list {

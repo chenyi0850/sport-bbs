@@ -14,10 +14,19 @@
         />
       </el-tab-pane>
       <el-tab-pane label="上传视频" name="second" :lazy="true">
+        <el-select v-model="videoType" placeholder="请选择">
+          <el-option
+            v-for="item in options"
+            :key="item.value"
+            :label="item.label"
+            :value="item.value"
+          >
+          </el-option>
+        </el-select>
         <el-upload
           class="avatar-uploader"
           :data="dataObj"
-          :action="`api/uploadVideo?user_id=${user_id}`"
+          :action="`api/uploadVideo?user_id=${user_id}&type=${videoType}`"
           list-type="picture-card"
           :show-file-list="false"
           :on-error="handleError"
@@ -126,6 +135,10 @@ export default class Write extends Vue {
     this.percent = 0;
   }
   videoBeforeUpload(file: any) {
+    if(!this.videoType) {
+      this.$message.warning("请选择视频类型");
+      return false;
+    }
     console.log(file);
     const _self = this;
     const isVideo =
@@ -151,14 +164,34 @@ export default class Write extends Vue {
     console.log(event.percent);
     this.percent = Math.floor(event.percent);
   }
+  private options: object = [
+    {
+      value: "1",
+      label: "篮球",
+    },
+    {
+      value: "2",
+      label: "足球",
+    },
+    {
+      value: "3",
+      label: "田径",
+    },
+    {
+      value: "4",
+      label: "其他"
+    }
+  ];
+  private videoType: string = "";
 
   async created(): Promise<void> {
-    if(!this.user_id) {
+    if (!this.user_id) {
       this.$message({
         type: "warning",
-        message: "登录才能发帖，请先登录！"
-      })
-      return
+        message: "登录才能发帖，请先登录！",
+        // duration: 1000
+      });
+      return;
     }
     if (this.$route.query.share) {
       this.activeName = "third";
@@ -187,6 +220,10 @@ export default class Write extends Vue {
 .write {
   width: 100%;
   // 上传视频
+  .el-select {
+    width: 178px;
+    margin-bottom: 10px;
+  }
   .avatar-uploader .el-upload {
     border: 1px dashed #d9d9d9;
     border-radius: 6px;

@@ -1,4 +1,4 @@
-import { ObjectId } from 'bson';
+import { ObjectID, ObjectId } from 'bson';
 import Article from '../models/article';
 import User from '../models/user';
 import { responseClient, timestampToTime } from '../util/util';
@@ -153,7 +153,7 @@ exports.getArticleList = (req, res) => {
     if (keyword) {
       const reg = new RegExp(keyword, 'i'); //不区分大小写
       conditions = {
-        $or: [{ title: { $regex: reg } }, { desc: { $regex: reg } }, {content: { $regex: reg }}],
+        $or: [{ title: { $regex: reg } }, { desc: { $regex: reg } }, { content: { $regex: reg } }],
       };
     }
   } else if (state) {
@@ -168,13 +168,17 @@ exports.getArticleList = (req, res) => {
               { title: { $regex: reg } },
               { desc: { $regex: reg } },
               { keyword: { $regex: reg } },
-              {content: { $regex: reg }}
+              { content: { $regex: reg } }
             ],
           },
         ],
       };
     } else {
-      conditions = { $and: [{ state }, { type }] };
+      if (tag_id) {
+        conditions = { $and: [{ state }, { type }, { tags: { $all: [tag_id] } }] };
+      } else {
+        conditions = { $and: [{ state }, { type }] }
+      }
     }
   }
 
@@ -212,7 +216,6 @@ exports.getArticleList = (req, res) => {
       if (likes) {
         switch (likes) {
           case "1": {
-            console.log(options)
             await Article.aggregate([  //聚合查询
               { $match: conditions }, //查询参数
               {
@@ -258,38 +261,7 @@ exports.getArticleList = (req, res) => {
         } else {
           let newList = [];
           if (likes) {
-            // switch(likes) {
-            //   case "1": {
-            //     result.sort((a, b) => {
-            //       return (b.meta.views + b.meta.likes + b.meta.comments) - (a.meta.views + a.meta.likes + a.meta.comments)
-            //     })
-            //     break
-            //   }
-            //   case "2": {
-            //     result.sort((a, b) => {
-            //       return b.meta.views - a.meta.views;
-            //     });
-            //     break
-            //   }
-            //   case "3": {
-            //     result.sort((a, b) => {
-            //       return b.meta.likes - a.meta.likes;
-            //     });
-            //     break
-            //   }
-            //   case "4": {
-            //     result.sort((a, b) => {
-            //       return b.meta.comments - a.meta.comments;
-            //     });
-            //     break
-            //   }
-            // }
-            // 根据热度 likes 返回数据
-            // result.sort((a, b) => {
-            //   return b.meta.likes - a.meta.likes;
-            // });
             if (likes !== "1") {
-              
               responseData.list = result;
             }
           } else if (category_id) {
@@ -304,16 +276,16 @@ exports.getArticleList = (req, res) => {
             responseData.count = len;
             responseData.list = newList;
           } else if (tag_id) {
-            // console.log('tag_id :', tag_id);
             // 根据标签 id 返回数据
-            result.forEach(item => {
-              if (item.tags.indexOf(tag_id) > -1) {
-                newList.push(item);
-              }
-            });
-            let len = newList.length;
-            responseData.count = len;
-            responseData.list = newList;
+            // result.forEach(item => {
+            //   if (item.tags.indexOf(tag_id) > -1) {
+            //     newList.push(item);
+            //   }
+            // });
+            // newList = result
+            // let len = result.length;
+            // responseData.count = len;
+            responseData.list = result;
           } else if (article) {
             const archiveList = []
             let obj = {}
