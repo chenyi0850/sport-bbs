@@ -122,6 +122,7 @@ export default class News extends Vue {
   
   // lifecycle hook
   mounted(): void {
+    document.title = `Sport BBS`;
     this.handleSearch();
     window.onscroll = () => {
       if (getScrollTop() + getWindowHeight() > getDocumentHeight() - 150) {

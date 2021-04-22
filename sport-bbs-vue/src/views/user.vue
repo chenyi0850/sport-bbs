@@ -239,6 +239,9 @@ export default {
     this.userInfo = JSON.parse(window.localStorage.userInfo);
     this.params = JSON.parse(JSON.stringify(this.userInfo));
     this.imageUrl = this.userInfo.avatar;
+    if(this.$route.query.activeName) {
+      this.activeName = this.$route.query.activeName
+    }
   },
 };
 </script>

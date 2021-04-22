@@ -126,6 +126,19 @@ export default class myPublished extends Vue {
       this.$router.push("/write?article_id=" + title_id);
     } else {
       if (type === "1,5,13") {
+        try {
+          var value = await this.$confirm("确认删除吗?", "提示", {
+            confirmButtonText: "确定",
+            cancelButtonText: "取消",
+            type: "warning",
+          });
+        } catch (error) {
+          this.$message({
+            type: "info",
+            message: "已取消删除",
+          });
+          return
+        }
         if (kind === "delArticle") {
           const data = await this.$https.post(this.$urls.delArticle, {
             id: item.title_id,

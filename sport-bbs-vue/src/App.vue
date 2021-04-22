@@ -4,7 +4,7 @@
     <Nav v-if="isShowNav" />
     <div class=" layout">
       <router-view />
-      <Slider v-if="isShowSlider" :tagType="$route.path === '/searchResult' ? 'articles' : $route.path"></Slider>
+      <Slider v-if="isShowSlider" :tagType="$route.path === '/searchResult' || '/user' ? '/news' : $route.path"></Slider>
     </div>
     <ArrowUp></ArrowUp>
     <Footer v-show="isShowNav"></Footer>

@@ -34,6 +34,7 @@ import {
   Badge,
   Select,
   Option,
+  MessageBox
 } from "element-ui";
 import CollapseTransition from "element-ui/lib/transitions/collapse-transition";
 import mixin from "./mixins";
@@ -71,11 +72,13 @@ Vue.use(Tooltip)
 Vue.use(Badge)
 Vue.use(Select);
 Vue.use(Option)
+// Vue.use(MessageBox)
 Vue.use(Loading.directive);
 Vue.use(VueCoreVideoPlayer, {
   lang: 'zh-CN'
 })
 Vue.prototype.$message = Message;
+Vue.prototype.$confirm = MessageBox.confirm;
 Vue.prototype.$loading = Loading.service;
 
 Vue.config.productionTip = false;

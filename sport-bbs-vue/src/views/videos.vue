@@ -5,7 +5,11 @@
         <div class="title" style="margin-top: 5px">
           <span class="titleText">篮球</span
           ><el-button
-            :style='isMobileOrPc ? "float: right; margin-right: 10px" : "float: right; margin-right: 40px"'
+            :style="
+              isMobileOrPc
+                ? 'float: right; margin-right: 10px'
+                : 'float: right; margin-right: 40px'
+            "
             @click="showMore('1')"
             >查看更多</el-button
           >
@@ -25,7 +29,11 @@
         <div class="title">
           <span class="titleText">足球</span
           ><el-button
-            :style='isMobileOrPc ? "float: right; margin-right: 10px" : "float: right; margin-right: 40px"'
+            :style="
+              isMobileOrPc
+                ? 'float: right; margin-right: 10px'
+                : 'float: right; margin-right: 40px'
+            "
             @click="showMore('2')"
             >查看更多</el-button
           >
@@ -45,7 +53,11 @@
         <div class="title">
           <span class="titleText">田径</span
           ><el-button
-            :style='isMobileOrPc ? "float: right; margin-right: 10px" : "float: right; margin-right: 40px"'
+            :style="
+              isMobileOrPc
+                ? 'float: right; margin-right: 10px'
+                : 'float: right; margin-right: 40px'
+            "
             @click="showMore('3')"
             >查看更多</el-button
           >
@@ -65,7 +77,11 @@
         <div class="title">
           <span class="titleText">其他</span
           ><el-button
-            :style='isMobileOrPc ? "float: right; margin-right: 10px" : "float: right; margin-right: 40px"'
+            :style="
+              isMobileOrPc
+                ? 'float: right; margin-right: 10px'
+                : 'float: right; margin-right: 40px'
+            "
             @click="showMore('4')"
             >查看更多</el-button
           >
@@ -116,7 +132,7 @@ import { ParamsArchive, ArchiveData } from "@/types/index";
 @Component({
   components: {
     LoadEnd,
-    LoadingCustom
+    LoadingCustom,
   },
 })
 export default class Videos extends Vue {
@@ -133,12 +149,13 @@ export default class Videos extends Vue {
   private params = {
     pageNum: 1,
     pageSize: 25,
-    type: 1,
+    type: "1",
   };
 
   async showMore(type: string): Promise<void> {
     this.isShowMore = true;
     this.isLoading = true;
+    this.params.type = type;
     const data = await this.$https.get(this.$urls.getVideosList, {
       params: this.params,
     });
@@ -151,8 +168,14 @@ export default class Videos extends Vue {
     }
   }
 
-  goBack():void {
-    this.isShowMore = false
+  goBack(): void {
+    this.isShowMore = false;
+    this.videosList = [];
+    this.params = {
+      pageNum: 1,
+      pageSize: 25,
+      type: "1",
+    };
   }
 
   toVideoDetail(src: string, coverSrc: string): void {

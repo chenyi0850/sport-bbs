@@ -1,146 +1,162 @@
 <template>
   <div>
-    <div v-if="!isMobile"
-         class="nav">
+    <div v-if="!isMobile" class="nav">
       <div class="nav-content">
         <el-row :gutter="20">
           <el-col :span="3">
             <router-link to="/">
-              <img class="logo"
-                   src="../assets/logo.jpg"
-                   alt="Sport BBS">
+              <img class="logo" src="../assets/logo.jpg" alt="Sport BBS" />
             </router-link>
           </el-col>
           <el-col :span="16">
-            <el-menu :router="true"
-                     :default-active="activeIndex"
-                     active-text-color="#409eff"
-                     class="el-menu-demo"
-                     mode="horizontal"
-                     @select="handleSelect">
-              <el-menuItem :route="l.path"
-                           :index="l.index"
-                           v-for="l in list"
-                           :key="l.index">
-                {{l.name}}
+            <el-menu
+              :router="true"
+              :default-active="activeIndex"
+              active-text-color="#409eff"
+              class="el-menu-demo"
+              mode="horizontal"
+              @select="handleSelect"
+            >
+              <el-menuItem
+                :route="l.path"
+                :index="l.index"
+                v-for="l in list"
+                :key="l.index"
+              >
+                {{ l.name }}
               </el-menuItem>
             </el-menu>
           </el-col>
-          <el-col v-if="userInfo._id"
-                  :span="5">
+          <el-col v-if="userInfo._id" :span="5">
             <div class="nav-right">
               <el-dropdown @command="handleLogout">
                 <span class="el-dropdown-link">
-                  {{userInfo.name}}<i class="el-icon-arrow-down el-icon--right"></i>
+                  {{ userInfo.name
+                  }}<i class="el-icon-arrow-down el-icon--right"></i>
                 </span>
                 <div @click="$router.push('/user')">
-                  <img v-if="!userInfo.avatar"
-                     class="user-img"
-                     src="../assets/user.png"
-                     alt="user">
-                     <img v-else
-                     class="user-img"
-                     :src="userInfo.avatar"
-                     alt="user">
-                <!-- <img v-if="userInfo.avatar"
+                  <img
+                    v-if="!userInfo.avatar"
+                    class="user-img"
+                    src="../assets/user.png"
+                    alt="user"
+                  />
+                  <img
+                    v-else
+                    class="user-img"
+                    :src="userInfo.avatar"
+                    alt="user"
+                  />
+                  <!-- <img v-if="userInfo.avatar"
                      class="user-img"
                      :src="userInfo.avatar"
                      alt="user"> -->
                 </div>
-                
+
                 <el-dropdown-menu slot="dropdown">
-                  <el-dropdown-item command="logout">登 出</el-dropdown-item>
+                  <el-dropdown-item command="first">我的动态</el-dropdown-item>
+                  <el-dropdown-item command="second">我发布的</el-dropdown-item>
+                  <el-dropdown-item command="third">我的收藏</el-dropdown-item>
+                  <el-dropdown-item command="fourth">浏览记录</el-dropdown-item>
+                  <el-dropdown-item command="logout">注 销</el-dropdown-item>
                 </el-dropdown-menu>
               </el-dropdown>
             </div>
           </el-col>
-          <el-col v-else
-                  :span="4">
+          <el-col v-else :span="4">
             <div class="nav-right">
-              <el-button size="small"
-                         type="primary"
-                         @click="handleClick('login')">登录</el-button>
-              <el-button size="small"
-                         type="danger"
-                         @click="handleClick('register')">注册</el-button>
+              <el-button
+                size="small"
+                type="primary"
+                @click="handleClick('login')"
+                >登录</el-button
+              >
+              <el-button
+                size="small"
+                type="danger"
+                @click="handleClick('register')"
+                >注册</el-button
+              >
             </div>
           </el-col>
         </el-row>
       </div>
     </div>
-    <div v-else
-         class="nav">
+    <div v-else class="nav">
       <div class="nav-mobile">
         <div class="nav-mobile-logo">
           <router-link to="/">
-            <img class="logo fl"
-                 src="../assets/logo.jpg"
-                 alt="logo">
+            <img class="logo fl" src="../assets/logo.jpg" alt="logo" />
           </router-link>
         </div>
-        <div class="title">{{title}}</div>
-        <div class="menu"
-             @click="handleMenu"><i class="el-icon-menu"></i></div>
+        <div class="title">{{ title }}</div>
+        <div class="menu" @click="handleMenu"><i class="el-icon-menu"></i></div>
       </div>
-      <div v-if="isShow"
-           class="nav-mobile-content"
-           :class="{'enter-slideUp': enterSlideUp,'leave-slideDown': leaveSlideDown}">
+      <div
+        v-if="isShow"
+        class="nav-mobile-content"
+        :class="{
+          'enter-slideUp': enterSlideUp,
+          'leave-slideDown': leaveSlideDown,
+        }"
+      >
         <div class="list">
           <!-- <div @click="handleClickMenu"
                class="item">
             <router-link to="/">新 闻</router-link>
           </div> -->
-          <div @click="handleClickMenu('/news')"
-               class="item">
+          <div @click="handleClickMenu('/news')" class="item">
             <router-link to="/news">新 闻</router-link>
           </div>
-          <div @click="handleClickMenu('/articles')"
-               class="item">
+          <div @click="handleClickMenu('/articles')" class="item">
             <router-link to="/articles">论 坛</router-link>
           </div>
-          <div @click="handleClickMenu('/videos')"
-               class="item">
+          <div @click="handleClickMenu('/videos')" class="item">
             <router-link to="/videos">视 频</router-link>
           </div>
-          <div @click="handleClickMenu('/equipment')"
-               class="item">
+          <div @click="handleClickMenu('/equipment')" class="item">
             <router-link to="/equipment">装 备</router-link>
           </div>
-          <div @click="handleClickMenu('/write')"
-               class="item">
+          <div @click="handleClickMenu('/write')" class="item">
             <router-link to="/write">发 帖</router-link>
           </div>
-          <div @click="handleClickMenu('/about')"
-               class="item">
+          <div @click="handleClickMenu('/about')" class="item">
             <router-link to="/about">关 于</router-link>
           </div>
-          <div @click="handleClickMenu('/login')"
-               class="item">
+          <div @click="handleClickMenu('/login')" class="item">
             <span v-if="userInfo._id">{{ userInfo.name }}</span>
             <span v-else>登 录</span>
           </div>
-          <div v-if="!userInfo._id"
-               @click="handleClickMenu('/register')"
-               class="item">
+          <div
+            v-if="!userInfo._id"
+            @click="handleClickMenu('/register')"
+            class="item"
+          >
             注 册
           </div>
-          <div v-if="userInfo._id"
-               @click="handleClickMenu('/logout')"
-               class="item">
-            登 出
+          <div
+            v-if="userInfo._id"
+            @click="handleClickMenu('/logout')"
+            class="item"
+          >
+            注 销
           </div>
         </div>
       </div>
     </div>
-    <div v-if="isShow"
-         class="mask"
-         :class="{'mask-fade-out': leaveSlideDown}"
-         @click="handleHideMenu"></div>
-    <RegisterAndLogin :visible="visible"
-                      :isMobile="isMobile"
-                      :handleFlag="handleFlag"
-                      @ok="handleOk"
-                      @cancel="handleCancel"></RegisterAndLogin>
+    <div
+      v-if="isShow"
+      class="mask"
+      :class="{ 'mask-fade-out': leaveSlideDown }"
+      @click="handleHideMenu"
+    ></div>
+    <RegisterAndLogin
+      :visible="visible"
+      :isMobile="isMobile"
+      :handleFlag="handleFlag"
+      @ok="handleOk"
+      @cancel="handleCancel"
+    ></RegisterAndLogin>
   </div>
 </template>
 
@@ -153,8 +169,8 @@ import { UserInfo, NavListItem } from "@/types/index";
 
 @Component({
   components: {
-    RegisterAndLogin
-  }
+    RegisterAndLogin,
+  },
 })
 export default class Nav extends Vue {
   private visible: boolean = false;
@@ -164,33 +180,33 @@ export default class Nav extends Vue {
     {
       index: "1",
       path: "/news",
-      name: "新闻"
+      name: "新闻",
     },
     {
       index: "2",
       path: "/articles",
-      name: "论坛"
+      name: "论坛",
     },
     {
       index: "3",
       path: "/videos",
-      name: "视频"
+      name: "视频",
     },
     {
       index: "4",
       path: "/equipment",
-      name: "装备"
+      name: "装备",
     },
     {
       index: "5",
       path: "/write",
-      name: "发帖"
+      name: "发帖",
     },
     {
       index: "6",
       path: "/about",
-      name: "关于"
-    }
+      name: "关于",
+    },
   ];
   private activeIndex: string = "0";
   private enterSlideUp: boolean = false;
@@ -211,17 +227,18 @@ export default class Nav extends Vue {
     let userInfo: any = {
       _id: "",
       name: "",
-      avatar: ""
+      avatar: "",
     };
     if (window.localStorage.userInfo) {
       userInfo = JSON.parse(window.localStorage.userInfo);
       this.$store.commit("SAVE_USER", {
-        userInfo
+        userInfo,
       });
     }
     if (this.$store.state.user.userInfo) {
       userInfo = this.$store.state.user.userInfo;
     }
+    console.log(userInfo)
     return userInfo;
   }
 
@@ -233,9 +250,9 @@ export default class Nav extends Vue {
         this.activeIndex = i + 1 + "";
         this.title = l.name;
         break;
-      } else if(val.path === '/user') {
-        this.title = "我的"
-        break
+      } else if (val.path === "/user") {
+        this.title = "我的";
+        break;
       }
     }
   }
@@ -243,9 +260,9 @@ export default class Nav extends Vue {
   private handleClickMenu(route: string): void {
     this.isShow = false;
     if (route === "/login") {
-      if(this.userInfo._id) {
-        this.$router.push("/user")
-        return
+      if (this.userInfo._id) {
+        this.$router.push("/user");
+        return;
       }
       this.handleFlag = "login";
       this.visible = true;
@@ -276,7 +293,7 @@ export default class Nav extends Vue {
       lock: true,
       text: "Loading",
       spinner: "el-icon-loading",
-      background: "rgba(255, 255, 255, 0.7)"
+      background: "rgba(255, 255, 255, 0.7)",
     });
     const data: UserInfo = await this.$https.post(
       this.$urls.getUser,
@@ -288,35 +305,40 @@ export default class Nav extends Vue {
     const userInfo: UserInfo = {
       _id: data._id,
       name: data.name,
-      avatar: data.avatar
+      avatar: data.avatar,
     };
     this.$store.commit("SAVE_USER", {
-      userInfo
+      userInfo,
     });
     window.localStorage.userInfo = JSON.stringify(userInfo);
     this.$message({
       message: "操作成功",
-      type: "success"
+      type: "success",
     });
     let preventHistory = JSON.parse(window.localStorage.preventHistory);
     if (preventHistory) {
       this.$router.push({
         path: preventHistory.name,
-        query: preventHistory.query
+        query: preventHistory.query,
       });
     }
   }
 
-  private handleLogout(): void {
-    window.localStorage.userInfo = "";
-    this.$store.commit("SAVE_USER", {
-      userInfo: {
-        _id: "",
-        name: "",
-        avatar: ""
-      }
-    });
-    this.$https.post(this.$urls.logout).then((res: any) => console.log(res))
+  private handleLogout(command: string): void {
+    if (command === "logout") {
+      window.localStorage.userInfo = "";
+      this.$store.commit("SAVE_USER", {
+        userInfo: {
+          _id: "",
+          name: "",
+          avatar: "",
+        },
+      });
+      this.$https.post(this.$urls.logout).then((res: any) => console.log(res));
+      this.$router.push("/news");
+    } else {
+      this.$router.push(`/user?activeName=${command}`);
+    }
   }
 
   private handleClick(value: string): void {

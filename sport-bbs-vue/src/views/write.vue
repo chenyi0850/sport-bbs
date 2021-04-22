@@ -189,8 +189,9 @@ export default class Write extends Vue {
       this.$message({
         type: "warning",
         message: "登录才能发帖，请先登录！",
-        // duration: 1000
+        duration: 1000
       });
+      this.$router.go(-1);
       return;
     }
     if (this.$route.query.share) {

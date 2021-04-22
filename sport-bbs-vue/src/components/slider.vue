@@ -20,6 +20,7 @@
         v-model="keyword"
         class="input-search"
         style="width: 300px"
+        @keyup.enter.native="search"
       >
         <!-- <el-select v-model="select" slot="prepend" placeholder="请选择">
       <el-option label="餐厅名" value="1"></el-option>
@@ -201,7 +202,7 @@ export default class Slider extends Vue {
     }
   }
   .tags {
-    min-height: 200px;
+    // min-height: 200px;
     padding: 5px 0 20px 0;
     margin-bottom: 10px;
     border-bottom: 1px solid #eee;
