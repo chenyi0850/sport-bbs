@@ -36,7 +36,7 @@
                 </span>
                 <div @click="$router.push('/user')">
                   <img
-                    v-if="!userInfo.avatar"
+                    v-if="userInfo.avatar === 'user'"
                     class="user-img"
                     src="../assets/user.png"
                     alt="user"

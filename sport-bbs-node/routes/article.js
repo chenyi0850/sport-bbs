@@ -12,6 +12,7 @@ exports.addArticle = (req, res) => {
   const {
     title,
     author,
+    auth_logo,
     keyword,
     content,
     desc,
@@ -28,6 +29,7 @@ exports.addArticle = (req, res) => {
     tempArticle = new Article({
       title,
       author,
+      auth_logo,
       keyword: keyword ? keyword.split(',') : [],
       content,
       numbers: content.length,
@@ -44,6 +46,7 @@ exports.addArticle = (req, res) => {
     tempArticle = new Article({
       title,
       author,
+      auth_logo,
       keyword: keyword ? keyword.split(',') : [],
       content,
       numbers: content.length,

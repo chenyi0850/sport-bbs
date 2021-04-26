@@ -49,7 +49,7 @@ service.interceptors.response.use(
           type: "error"
         })
         if (window.localStorage.userInfo) {
-          setTimeout(() => window.location.reload(), 2000)
+          setTimeout(() => window.location.reload(), 500)
           window.localStorage.userInfo = "";
           return Promise.reject(new Error(res.data.message || "Error"));
         } 

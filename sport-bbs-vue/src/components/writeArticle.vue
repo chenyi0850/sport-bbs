@@ -188,11 +188,16 @@ export default class WriteArticle extends Vue {
     ).list;
   }
 
+  
   async addArticle(): Promise<void> {
     let user_id = "";
+    let name = ""
+    let auth_logo = ''
     if (window.localStorage.userInfo) {
       let userInfo = JSON.parse(window.localStorage.userInfo);
       user_id = userInfo._id;
+      name = userInfo.name
+      auth_logo = userInfo.avatar
     } else {
       this.$message({
         message: "登录才能发布，请先登录！",
@@ -202,7 +207,7 @@ export default class WriteArticle extends Vue {
     }
     const params: object = {
       title: this.article.title,
-      author: "admin",
+      author: name,
       keyword: "",
       desc: this.article.desc,
       content: this.article.content,
@@ -210,6 +215,7 @@ export default class WriteArticle extends Vue {
       type: this.isShare ? 3 : 2,
       buy_link: this.isShare ? this.article.href : "",
       img_url: this.article.img_url,
+      auth_logo
     };
     const data = await this.$https.post(this.$urls.addArticle, params);
 

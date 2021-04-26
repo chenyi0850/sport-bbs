@@ -77,7 +77,20 @@ Vue.use(Loading.directive);
 Vue.use(VueCoreVideoPlayer, {
   lang: 'zh-CN'
 })
-Vue.prototype.$message = Message;
+Vue.prototype.$message = function(options:any){
+  return Message({
+    ...options,
+    // message:msg,
+    duration:1000
+  })
+
+}
+Vue.prototype.$message.warning = function (options:any) {
+  return Message.warning({
+    ...options,
+    duration: 1000
+  })
+}
 Vue.prototype.$confirm = MessageBox.confirm;
 Vue.prototype.$loading = Loading.service;
 

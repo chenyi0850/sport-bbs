@@ -79,12 +79,12 @@ export default new Router({
       component: () =>
         import(/* webpackChunkName: "write" */ "./views/write.vue")
     },
-    // {
-    //   path: "*",
-    //   redirect: {
-    //     name: "home"
-    //   }
-    // }
+    {
+      path: "*",
+      redirect: {
+        name: "news"
+      }
+    },
     {
       path: "/searchResult",
       name: "searchResult",

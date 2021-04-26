@@ -16,12 +16,14 @@ const equipment = require('./equipment')
 module.exports = app => {
 	app.post('/login', user.login);
 	
+	app.get('/getAvatar', user.getAvatar)
 	app.post('/loginAdmin', user.loginAdmin);
 	app.post('/register', user.register);
 	app.post('/delUser', user.delUser);
 	app.post('/getUser', user.getUser);
 	app.get('/currentUser', user.currentUser);
 	app.get('/getUserList', user.getUserList);
+	app.get('/userInfo', user.userInfo)
 
 	
 	

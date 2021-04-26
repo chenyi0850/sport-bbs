@@ -40,6 +40,11 @@ if (isMobileOrPc()) {
 export default class App extends Vue {
   private isShowNav: boolean = false;
   private isShowSlider: boolean = false;
+  beforeCreate(): void{
+    if(window.localStorage.userInfo) {
+      this.$https.get(this.$urls.userInfo)
+    }
+  }
   mounted(): void {
     this.routeChange(this.$route, this.$route);
   }

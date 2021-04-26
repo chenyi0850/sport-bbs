@@ -6,6 +6,7 @@ export const urls: object = {
   getUser: "getUser",
   updateUser: "updateUser",
   uploadAvatar: "uploadAvatar",
+  userInfo: "userInfo",
 
   addComment: "addComment",
   addThirdComment: "addThirdComment",

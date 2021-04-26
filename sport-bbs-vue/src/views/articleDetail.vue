@@ -322,8 +322,15 @@ export default class ArticleDetail extends Vue {
     //   this.articleDetail.content = res.content;
     //   this.articleDetail.toc = res.toc;
     // });
-    if (this.articleDetail.auth_logo === "nba") {
-      this.authLogo = require("../assets/nbaLogo.jpg");
+    switch(this.articleDetail.auth_logo) {
+      case 'nba': {
+        this.authLogo = require("../assets/nbaLogo.jpg");
+        break
+      }
+      case 'user': {
+        this.authLogo = require("../assets/user.png");
+        break
+      }
     }
     let keyword = data.keyword.join(",");
     let description = data.desc;

@@ -194,6 +194,9 @@ export default class Write extends Vue {
       this.$router.go(-1);
       return;
     }
+    if(window.localStorage.userInfo) {
+      this.$https.get(this.$urls.userInfo)
+    }
     if (this.$route.query.share) {
       this.activeName = "third";
     } else {
