@@ -163,7 +163,8 @@ export default class Equipment extends Vue {
         else this.left += 830;
       }
     } else {
-      let width = document.getElementsByClassName("equip-container")[0].offsetWidth / 4
+      let dom = <HTMLElement>document.getElementsByClassName("equip-container")[0]
+      let width = dom.offsetWidth / 4
       if (type === "right") {
         if (this.left === -3 * width) this.left = 0;
         else this.left -= width;

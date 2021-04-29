@@ -7,3 +7,5 @@ declare var THREE: any;
 
 declare module "element-ui/lib/transitions/collapse-transition";
 declare module "element-ui";
+
+declare module 'vue-core-video-player';

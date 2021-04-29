@@ -272,7 +272,7 @@ export default class Nav extends Vue {
       this.visible = true;
     }
     if (route === "/logout") {
-      this.handleLogout();
+      this.handleLogout('logout');
     }
   }
   private handleMenu(): void {
