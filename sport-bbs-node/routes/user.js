@@ -112,7 +112,7 @@ exports.login = (req, res) => {
         req.session.userInfo = userInfo;
         responseClient(res, 200, 0, '登录成功', userInfo);
       } else {
-        responseClient(res, 400, 1, '用户名或者密码错误');
+        responseClient(res, 200, 0, '用户名或者密码错误', '用户名或者密码错误');
       }
     })
     .catch(err => {
@@ -395,7 +395,7 @@ exports.uploadAvatar = (req, res) => {
               console.log(_id)
               User.updateOne(
                 { _id },
-                { avatar: "http://localhost:3000/getAvatar?avatar=" + newPath }
+                { avatar: "http://119.29.3.138:3000/api/getAvatar?avatar=" + newPath }
               ).then(data => {
                 responseClient(res, 200, 0, '保存成功');
               }).catch(e => {

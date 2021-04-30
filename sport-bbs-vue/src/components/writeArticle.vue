@@ -85,6 +85,13 @@ export default class WriteArticle extends Vue {
   };
   // 表单校验
   private rules: object = {
+    href: [
+      {
+        pattern: /[http://|ftp://|https://|www]?[^\u4e00-\u9fa5\s]*?\.[com|net|cn|me|tw|fr][^\u4e00-\u9fa5\s]*/,
+        trigger: "blur",
+        message: "请输入正确的链接"
+      },
+    ],
     title: [
       { required: true, message: "请输入标题", trigger: "blur" },
       { min: 3, max: 20, message: "长度在 3 到 20 个字符", trigger: "blur" },
@@ -165,7 +172,6 @@ export default class WriteArticle extends Vue {
     (this.$refs[formName] as any).validate((valid: any) => {
       if (valid) {
         if (this.articleDetail.title) {
-          console.log(this.article);
           this.updateArticle();
         } else {
           this.addArticle();
@@ -189,16 +195,15 @@ export default class WriteArticle extends Vue {
     ).list;
   }
 
-  
   async addArticle(): Promise<void> {
     let user_id = "";
-    let name = ""
-    let auth_logo = ''
+    let name = "";
+    let auth_logo = "";
     if (window.localStorage.userInfo) {
       let userInfo = JSON.parse(window.localStorage.userInfo);
       user_id = userInfo._id;
-      name = userInfo.name
-      auth_logo = userInfo.avatar
+      name = userInfo.name;
+      auth_logo = userInfo.avatar;
     } else {
       this.$message({
         message: "登录才能发布，请先登录！",
@@ -216,7 +221,7 @@ export default class WriteArticle extends Vue {
       type: this.isShare ? 3 : 2,
       buy_link: this.isShare ? this.article.href : "",
       img_url: this.article.img_url,
-      auth_logo
+      auth_logo,
     };
     const data = await this.$https.post(this.$urls.addArticle, params);
 
