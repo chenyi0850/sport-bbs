@@ -6,7 +6,7 @@ interface Config {
 }
 const config: Config = {
   oauth_uri: "https://github.com/login/oauth/authorize",
-  redirect_uri: "http:119.29.3.138/login", // 请修改成你的信息
+  redirect_uri: "http://119.29.3.138/login", // 请修改成你的信息
   client_id: "XXXXXXXXX", // 请修改成你的信息
   client_secret: "XXXXXXXXX" // 请修改成你的信息
 };

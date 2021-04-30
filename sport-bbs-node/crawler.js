@@ -178,19 +178,19 @@ async function getBaiduArticles(url, title, img_url, author, auth_logo, tags, de
     });
 }
 // getBaiduNews("cba")
-// getBaiduNews("篮球", ['607a79224feacf269c1c7381'], "basketball")
-// getBaiduNews("足球", ['607a79294feacf269c1c7382'], "football")
-// getBaiduNews("田径", ['607a79314feacf269c1c7383'], "athletics")
-// getBaiduNews("游泳", ['607a840fccbf563c705dce63'], "swimming")
-// getBaiduNews("羽毛球", ['607a843fccbf563c705dce64'], "badminton")
-// getBaiduNews("乒乓球", ['607a8445ccbf563c705dce65'], "pingpong")
-// getBaiduNews("NBA", ['607a844bccbf563c705dce66'], "NBA")
-// getBaiduNews("CBA", ['607a8452ccbf563c705dce67'], "CBA")
-// getBaiduNews("中超", ['607a845cccbf563c705dce68'], "CSL")
-// getBaiduNews("英超", ['607a8462ccbf563c705dce69'], "EPL")
-// getBaiduNews("西甲", ['607a8494ccbf563c705dce6a'], "SPL")
-// getBaiduNews("德甲", ['607a8498ccbf563c705dce6b'], "GBL")
-// getBaiduNews("意甲", ['607a849eccbf563c705dce6c'], "ISA")
+getBaiduNews("篮球", ['608bfd4fad707c110e6fc568'], "basketball")
+getBaiduNews("足球", ['608bfd59ad707c110e6fc569'], "football")
+getBaiduNews("田径", ['608bfd67ad707c110e6fc56a'], "athletics")
+getBaiduNews("游泳", ['608bfd6cad707c110e6fc56b'], "swimming")
+getBaiduNews("羽毛球", ['608bfd72ad707c110e6fc56c'], "badminton")
+getBaiduNews("乒乓球", ['608bfd79ad707c110e6fc56d'], "pingpong")
+getBaiduNews("NBA", ['608bfd7fad707c110e6fc56e'], "NBA")
+getBaiduNews("CBA", ['608bfd84ad707c110e6fc56f'], "CBA")
+getBaiduNews("中超", ['608bfd89ad707c110e6fc570'], "CSL")
+getBaiduNews("英超", ['608bfd94ad707c110e6fc571'], "EPL")
+getBaiduNews("西甲", ['608bfd98ad707c110e6fc572'], "SPL")
+getBaiduNews("德甲", ['608bfd9cad707c110e6fc573'], "GBL")
+getBaiduNews("意甲", ['608bfda2ad707c110e6fc574'], "ISA")
 
 
 

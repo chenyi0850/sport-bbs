@@ -104,7 +104,7 @@ export default class SearchRes extends Vue {
   private href: string =
     process.env.NODE_ENV === "development"
       ? "http://localhost:3001/articleDetail?article_id="
-      : "http:119.29.3.138/articleDetail?article_id=";
+      : "http://119.29.3.138/articleDetail?article_id=";
 
   // lifecycle hook
   mounted(): void {
@@ -138,7 +138,7 @@ export default class SearchRes extends Vue {
     // if (process.env.NODE_ENV === "development") {
     //   url = "http://localhost:3001/articleDetail?";
     // } else {
-    //   url = "http:119.29.3.138/articleDetail?";
+    //   url = "http://119.29.3.138/articleDetail?";
     // }
     // window.open(url + `article_id=${id}`);
   }

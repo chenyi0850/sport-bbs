@@ -89,7 +89,7 @@ export default class Slider extends Vue {
   private href: string =
     process.env.NODE_ENV === "development"
       ? "http://localhost:3001/articleDetail?article_id="
-      : "http:119.29.3.138/articleDetail?article_id=";
+      : "http://119.29.3.138/articleDetail?article_id=";
   @Prop({ default: "" }) tagType!: string;
   mounted(): void {
     this.handleSearch();

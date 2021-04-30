@@ -22,7 +22,7 @@
         >
           {{ tag.name }}
         </el-tag>
-        <el-input
+        <!-- <el-input
           class="input-new-tag"
           v-if="inputVisible"
           v-model="inputTagValue"
@@ -34,7 +34,7 @@
         </el-input>
         <el-button v-else class="button-new-tag" size="small" @click="showInput"
           >添加标签</el-button
-        >
+        > -->
       </div>
       <div class="tag-input">
         <el-tag
