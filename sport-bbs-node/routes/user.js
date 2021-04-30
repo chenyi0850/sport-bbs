@@ -395,7 +395,7 @@ exports.uploadAvatar = (req, res) => {
               console.log(_id)
               User.updateOne(
                 { _id },
-                { avatar: "http://119.29.3.138:3000/api/getAvatar?avatar=" + newPath }
+                { avatar: "http://119.29.3.138/api/getAvatar?avatar=" + newPath }
               ).then(data => {
                 responseClient(res, 200, 0, '保存成功');
               }).catch(e => {
