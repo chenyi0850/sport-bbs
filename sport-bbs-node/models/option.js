@@ -2,7 +2,7 @@
  * Option model module.
  * @file 设置网站数据模型
  * @module model/option
- * @author biaochenxuying <https://github.com/biaochenxuying>
+ * @author chenyi <https://github.com/biaochenxuying>
  */
 
 const { mongoose } = require('../core/mongodb.js');

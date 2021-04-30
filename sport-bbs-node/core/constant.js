@@ -2,7 +2,7 @@
  * Constants module.
  * @file 数据表常量模块
  * @module core/constants
- * @author biaochenxuying <https://github.com/biaochenxuying>
+ * @author chenyi <https://github.com/biaochenxuying>
  */
 
 

@@ -2,7 +2,7 @@
  * App config module.
  * @file 应用运行配置
  * @module app.config
- * @author biaochenxuying <https://github.com/biaochenxuying>
+ * @author chenyi <https://github.com/biaochenxuying>
  */
 
 const path = require('path');
@@ -28,7 +28,7 @@ exports.CROSS_DOMAIN = {
 };
 
 exports.MONGODB = {
-	uri: `mongodb://127.0.0.1:${argv.dbport || '27017'}/blogNode`,
+	uri: `mongodb://127.0.0.1:${argv.dbport || '27017'}/sport-bbs`,
 	username: argv.db_username || 'DB_username',
 	password: argv.db_password || 'DB_password',
 };

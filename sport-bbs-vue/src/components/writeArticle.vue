@@ -22,7 +22,7 @@
         >
           {{ tag.name }}
         </el-tag>
-        <!-- <el-input
+        <el-input
           class="input-new-tag"
           v-if="inputVisible"
           v-model="inputTagValue"
@@ -34,7 +34,7 @@
         </el-input>
         <el-button v-else class="button-new-tag" size="small" @click="showInput"
           >添加标签</el-button
-        > -->
+        >
       </div>
       <div class="tag-input">
         <el-tag
@@ -112,12 +112,13 @@ export default class WriteArticle extends Vue {
     this.inputVisible = false;
     this.inputTagValue = "";
   }
-  // showInput(): void {
-  //   this.inputVisible = true;
-  //   this.$nextTick((_) => {
-  //     this.$refs.saveTagInput.$refs.input.focus();
-  //   });
-  // }
+  showInput(): void {
+    this.inputVisible = true;
+    this.$nextTick(() => {
+      (this.$refs.saveTagInput as any).$refs.input.focus();
+      // this.$refs.saveTagInput.$refs.input.focus();
+    });
+  }
   // 添加标签的div仿input
   tagsInput: object[] = [];
   // 选中标签

@@ -84,7 +84,7 @@ export default class myPublished extends Vue {
   private href: string =
     process.env.NODE_ENV === "development"
       ? "http://localhost:3001/articleDetail?article_id="
-      : "https://biaochenxuying.cn/articleDetail?article_id=";
+      : "http:119.29.3.138/articleDetail?article_id=";
   private params = {
     user_id: this.user_id,
     pageNum: 1,

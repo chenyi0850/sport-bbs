@@ -2,7 +2,7 @@
  * Project model module.
  * @file 项目模型
  * @module model/project
- * @author biaochenxuying <https://github.com/biaochenxuying>
+ * @author chenyi <https://github.com/biaochenxuying>
  */
 
 const { mongoose } = require('../core/mongodb.js');

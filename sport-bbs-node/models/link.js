@@ -2,7 +2,7 @@
  * Link model module.
  * @file 链接模型
  * @module model/link
- * @author biaochenxuying <https://github.com/biaochenxuying>
+ * @author chenyi <https://github.com/biaochenxuying>
  */
 
 const { mongoose } = require('../core/mongodb.js');

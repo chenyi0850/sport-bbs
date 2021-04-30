@@ -2,7 +2,7 @@
  * Article model module.
  * @file 文章数据模型
  * @module model/article
- * @author biaochenxuying <https://github.com/biaochenxuying>
+ * @author chenyi <https://github.com/biaochenxuying>
  */
 
 const { mongoose } = require('../core/mongodb.js');
