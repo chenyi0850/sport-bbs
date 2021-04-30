@@ -87,7 +87,8 @@ export default {
   data() {
     return {
       //   url: "https://media.vued.vanthink.cn/sparkle_your_name_am720p.mp4",
-      url: "http://localhost:3000/getVideo?src=" + this.$route.query.src,
+      // url: "http://localhost:3000/getVideo?src=" + this.$route.query.src,
+      url: "http://119.29.3.138/api/getVideo?src=" + this.$route.query.src,
       cover: this.$route.query.coverSrc,
       btnLoading: false,
       isLoading: false,
