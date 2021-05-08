@@ -89,7 +89,7 @@ export default class WriteArticle extends Vue {
       {
         pattern: /[http://|ftp://|https://|www]?[^\u4e00-\u9fa5\s]*?\.[com|net|cn|me|tw|fr][^\u4e00-\u9fa5\s]*/,
         trigger: "blur",
-        message: "请输入正确的链接"
+        message: "请输入正确的链接",
       },
     ],
     title: [
@@ -176,12 +176,19 @@ export default class WriteArticle extends Vue {
         } else {
           this.addArticle();
         }
-
-        alert("submit!");
+        this.$message({
+          message: "发布成功",
+          type: "success",
+        });
+        // alert("submit!");
         if (this.isShare) this.$router.push("./equipment");
         else this.$router.push("./articles");
       } else {
-        console.log("error submit!!");
+        // console.log("error submit!!");
+        this.$message({
+          message: "发布失败",
+          type: "error",
+        });
         return false;
       }
     });
