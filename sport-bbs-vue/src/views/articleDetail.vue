@@ -35,7 +35,7 @@
                     : ""
                 }}
               </span>
-              <span class="wordage"> 字数 {{ articleDetail.numbers }} </span>
+              <!-- <span class="wordage"> 字数 {{ articleDetail.numbers }} </span> -->
               <span class="views-count">
                 阅读 {{ articleDetail.meta.views }}
               </span>
@@ -165,7 +165,7 @@ export default class ArticleDetail extends Vue {
   private articleDetail = {
     toc: "",
     _id: "",
-    author: "biaochenxuying",
+    author: "",
     category: [],
     comments: [],
     create_time: "",
@@ -323,8 +323,56 @@ export default class ArticleDetail extends Vue {
     //   this.articleDetail.toc = res.toc;
     // });
     switch(this.articleDetail.auth_logo) {
-      case 'nba': {
+      case 'basketball': {
+        this.authLogo = require("../assets/basketball.jpg");
+        break
+      }
+      case 'football': {
+        this.authLogo = require("../assets/football.jpg");
+        break
+      }
+      case 'athletics': {
+        this.authLogo = require("../assets/tianjing.jpg");
+        break
+      }
+      case 'swimming': {
+        this.authLogo = require("../assets/swimming.jpg");
+        break
+      }
+      case 'badminton': {
+        this.authLogo = require("../assets/yumaoqiu.jpg");
+        break
+      }
+      case 'pingpong': {
+        this.authLogo = require("../assets/pingpang.jpg");
+        break
+      }
+      case 'NBA': {
         this.authLogo = require("../assets/nbaLogo.jpg");
+        break
+      }
+      case 'CBA': {
+        this.authLogo = require("../assets/CBA.jpg");
+        break
+      }
+      case 'CSL': {
+        this.authLogo = require("../assets/zhongchao.jpg");
+        break
+      }
+      case 'EPL': {
+        this.authLogo = require("../assets/yingchao.jpg");
+        break
+      }
+      case 'SPL': {
+        this.authLogo = require("../assets/xijia.jpg");
+        break
+      }
+      case 'GBL': {
+        this.authLogo = require("../assets/dejia.jpg");
+        break
+      }
+      case 'ISA': {
+        this.authLogo = require("../assets/yijia.jpg");
         break
       }
       case 'user': {
@@ -444,7 +492,6 @@ export default class ArticleDetail extends Vue {
         title_id: this.articleDetail._id,
       },
     });
-    console.log(data);
     data.forEach((element: { type: any }) => {
       if (element.type === 2) this.isCollected = true;
       if (element.type === 3) this.isLiked = true;

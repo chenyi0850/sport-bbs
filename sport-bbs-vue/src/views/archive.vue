@@ -117,7 +117,6 @@ export default class Archive extends Vue {
     });
     this.isLoading = false;
     this.timeAxisList = [...this.timeAxisList, ...data.list];
-    console.log(this.timeAxisList)
     this.total = data.count;
     this.params.pageNum++;
     if (data.list.length === 0 || this.total === this.timeAxisList.length) {

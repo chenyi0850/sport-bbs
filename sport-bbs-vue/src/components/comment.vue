@@ -41,6 +41,7 @@ export default class Comment extends Vue {
   @Prop({ default: "" }) comment_id!: string;
   @Prop({ default: "" }) article_id!: string;
   @Prop({ default: {} }) to_user!: ToUser;
+  @Prop({ default: false }) isVideo: false
 
   // initial data
   private btnLoading: boolean = false;
@@ -106,6 +107,7 @@ export default class Comment extends Vue {
     }
     this.btnLoading = true;
     await this.$https.post(this.$urls.addThirdComment, {
+      isVideo: this.isVideo,
       article_id: this.article_id,
       user_id,
       comment_id: this.comment_id,

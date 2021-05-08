@@ -96,7 +96,6 @@ export default class Write extends Vue {
     this.imageUrl = "";
   }
   handleSuccessVideo(response: any) {
-    console.log(123, response);
     if (response.message === "保存成功") {
       this.$message.success("视频上传成功！");
       // this.imgFlag = false;
@@ -128,8 +127,6 @@ export default class Write extends Vue {
   handleError(err: any, file: any, fileList: any) {
     // 上传失败异常处理
     const error = JSON.parse(JSON.stringify(err));
-    console.log(err);
-    console.log(error);
     this.$message.error(error.status.toString());
     this.imgFlag = false;
     this.percent = 0;
@@ -139,7 +136,6 @@ export default class Write extends Vue {
       this.$message.warning("请选择视频类型");
       return false;
     }
-    console.log(file);
     const _self = this;
     const isVideo =
       file.type === "video/mp4" ||
@@ -161,7 +157,6 @@ export default class Write extends Vue {
   }
   uploadProcess(event: any, file: any, fileList: any) {
     this.imgFlag = true;
-    console.log(event.percent);
     this.percent = Math.floor(event.percent);
   }
   private options: object = [

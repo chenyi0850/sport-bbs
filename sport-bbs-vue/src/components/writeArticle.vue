@@ -260,7 +260,6 @@ export default class WriteArticle extends Vue {
       img_url: this.articleDetail.img_url,
     };
     const data = await this.$https.post(this.$urls.updateArticle, params);
-    console.log(data);
     await this.$https.post(this.$urls.updateTimeAxis, {
       user_id,
       title: this.article.title,

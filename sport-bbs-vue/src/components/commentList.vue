@@ -75,6 +75,7 @@
              :to_user="to_user"
              :comment_id="comment_id"
              :article_id="article_id"
+             :isVideo="isVideo"
              @handleOk="handleOk"
              @cancel="handleCancel" />
   </div>
@@ -94,6 +95,7 @@ export default class CommentList extends Vue {
   @Prop({ default: [] }) list!: Array<object>;
   @Prop({ default: 0 }) numbers!: number;
   @Prop({ default: "" }) article_id!: string;
+  @Prop({ default: false }) isVideo!: boolean
   private visible: boolean = false;
   private comment_id: string = "";
   private to_user: ToUser = {

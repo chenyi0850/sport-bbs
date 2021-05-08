@@ -144,7 +144,6 @@ export default class SearchRes extends Vue {
   }
 
   private async handleSearch(): Promise<void> {
-    console.log(this.params)
     this.params.keyword = this.$route.query.keyword + ''
     this.isLoading = true;
     const data: ArticlesData = await this.$https.get(

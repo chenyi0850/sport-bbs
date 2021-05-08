@@ -168,7 +168,7 @@ exports.addThirdComment = (req, res) => {
     responseClient(res, 200, 1, '您还没登录,或者登录信息已过期，请重新登录！');
     return;
   }
-  let { article_id, comment_id, user_id, content, to_user } = req.body;
+  let { isVideo, article_id, comment_id, user_id, content, to_user } = req.body;
   Comment.findById({
     _id: comment_id,
   })
@@ -199,29 +199,58 @@ exports.addThirdComment = (req, res) => {
             )
               .then(result => {
                 // responseClient(res, 200, 0, '操作成功', result);
-                Article.findOne({ _id: article_id }, (errors, data) => {
-                  if (errors) {
-                    console.error('Error:' + errors);
-                    // throw errors;
-                  } else {
-                    data.meta.comments = data.meta.comments + 1;
-                    Article.updateOne({ _id: article_id }, { meta: data.meta })
-                      .then(Articleresult => {
-                        // console.log('result --------------:', Articleresult);
-                        responseClient(
-                          res,
-                          200,
-                          0,
-                          '操作成功 ！',
-                          Articleresult,
-                        );
-                      })
-                      .catch(err => {
-                        // console.log('err ===========:', err);
-                        throw err;
-                      });
-                  }
-                });
+                if (!isVideo) {
+                  Article.findOne({ _id: article_id }, (errors, data) => {
+                    if (errors) {
+                      console.error('Error:' + errors);
+                      // throw errors;
+                    } else {
+                      data.meta.comments = data.meta.comments + 1;
+                      Article.updateOne({ _id: article_id }, { meta: data.meta })
+                        .then(Articleresult => {
+                          // console.log('result --------------:', Articleresult);
+                          responseClient(
+                            res,
+                            200,
+                            0,
+                            '操作成功 ！',
+                            Articleresult,
+                          );
+                        })
+                        .catch(err => {
+                          // console.log('err ===========:', err);
+                          throw err;
+                        });
+                    }
+                  });
+                }
+                else {
+                  Multimedia.findOne({ _id: article_id }, (errors, data) => {
+                    if (errors) {
+                      console.error('Error:' + errors);
+                      // throw errors;
+                    } else {
+                      data.meta.comments = data.meta.comments + 1;
+                      Multimedia.updateOne({ _id: article_id }, { meta: data.meta })
+                        .then(Articleresult => {
+                          // console.log('result --------------:', Articleresult);
+                          responseClient(
+                            res,
+                            200,
+                            0,
+                            '操作成功 ！',
+                            Articleresult,
+                          );
+                        })
+                        .catch(err => {
+                          // console.log('err ===========:', err);
+                          throw err;
+                        });
+                    }
+                  });
+                }
+
+
               })
               .catch(err1 => {
                 console.error('err1:', err1);

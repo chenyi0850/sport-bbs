@@ -3,14 +3,14 @@ export const urls: object = {
   login: "login",
   logout: "logout",
   register: "register",
-  getUser: "getUser",
+  // getUser: "getUser",
   updateUser: "updateUser",
   uploadAvatar: "uploadAvatar",
   userInfo: "userInfo",
 
   addComment: "addComment",
   addThirdComment: "addThirdComment",
-  getCommentList: "getCommentList",
+  // getCommentList: "getCommentList",
 
   addArticle: "addArticle",
   getArticleList: "getArticleList",
@@ -20,21 +20,21 @@ export const urls: object = {
   updateArticle: "updateArticle",
 
   addMessage: "addMessage",
-  getMessageList: "getMessageList",
-  getMessageDetail: "getMessageDetail",
+  // getMessageList: "getMessageList",
+  // getMessageDetail: "getMessageDetail",
 
-  getLinkList: "getLinkList",
+  // getLinkList: "getLinkList",
 
   addTag: "addTag",
   getTagList: "getTagList",
 
-  getCategoryList: "getCategoryList",
+  // getCategoryList: "getCategoryList",
 
   getTimeAxisList: "getTimeAxisList",
-  getTimeAxisDetail: "getTimeAxisDetail",
+  // getTimeAxisDetail: "getTimeAxisDetail",
 
-  getProjectList: "getProjectList",
-  getProjectDetail: "getProjectDetail",
+  // getProjectList: "getProjectList",
+  // getProjectDetail: "getProjectDetail",
 
   uploadVideo: "uploadVideo",
   getVideosList: "getVideosList",

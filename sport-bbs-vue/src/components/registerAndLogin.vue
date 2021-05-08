@@ -196,6 +196,8 @@ export default class RegisterAndLogin extends Vue {
       _id: data._id,
       name: data.name,
       avatar: data.avatar,
+      email: data.email,
+      password: data.password,
       introduce: data.introduce,
       phone: data.phone,
     };

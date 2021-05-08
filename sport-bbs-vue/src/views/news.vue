@@ -147,7 +147,6 @@ export default class News extends Vue {
 
   // method
   private articleDetail(id: string): void {
-    console.log("`id`", `/articleDetail?article_id=${id}`);
     let url: string = "";
     if (process.env.NODE_ENV === "development") {
       url = "http://localhost:3001/articleDetail?";

@@ -119,37 +119,32 @@ export default class myPublished extends Vue {
     window.open(href, "_blank");
   }
   private async edit(kind: string, type: string, item: any): Promise<void> {
-    console.log(kind, type, item);
     let _id = item._id;
     let title_id = item.title_id;
     if (kind === "editArticle") {
       this.$router.push("/write?article_id=" + title_id);
     } else {
-      if (type === "1,5,13") {
-        try {
-          var value = await this.$confirm("确认删除吗?", "提示", {
-            confirmButtonText: "确定",
-            cancelButtonText: "取消",
-            type: "warning",
-          });
-        } catch (error) {
-          this.$message({
-            type: "info",
-            message: "已取消删除",
-          });
-          return
-        }
-        if (kind === "delArticle") {
-          const data = await this.$https.post(this.$urls.delArticle, {
-            id: item.title_id,
-          });
-          console.log(data);
-        } else {
-          const data = await this.$https.post(this.$urls.delVideo, {
-            id: item.title_id,
-          });
-          console.log(data);
-        }
+      try {
+        var value = await this.$confirm("确认删除吗?", "提示", {
+          confirmButtonText: "确定",
+          cancelButtonText: "取消",
+          type: "warning",
+        });
+      } catch (error) {
+        this.$message({
+          type: "info",
+          message: "已取消删除",
+        });
+        return;
+      }
+      if (kind === "delArticle") {
+        const data = await this.$https.post(this.$urls.delArticle, {
+          id: item.title_id,
+        });
+      } else {
+        const data = await this.$https.post(this.$urls.delVideo, {
+          id: item.title_id,
+        });
       }
       const data = await this.$https.post(this.$urls.delTimeAxis, {
         _id,

@@ -238,7 +238,6 @@ export default class Nav extends Vue {
     if (this.$store.state.user.userInfo) {
       userInfo = this.$store.state.user.userInfo;
     }
-    console.log(userInfo)
     return userInfo;
   }
 

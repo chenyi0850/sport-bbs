@@ -43,6 +43,7 @@
       v-if="!isLoading"
       :numbers="videoDetail.meta.comments"
       :list="videoDetail.comments"
+      :isVideo="true"
       :article_id="videoDetail._id"
       @refreshArticle="refreshArticle"
     />
@@ -281,7 +282,6 @@ export default {
       const data = await this.$https.get(this.$urls.getVideoDetail, {
         params: this.params,
       });
-      console.log(data);
       this.isLoading = false;
       this.videoDetail = data;
       this.likeNum = data.meta.likes;
@@ -292,7 +292,6 @@ export default {
         .querySelector("#description")
         .setAttribute("content", description);
       if (this.user_id) {
-        console.log(this.user_id)
         this.$https.post(this.$urls.addTimeAxis, {
           user_id: this.user_id,
           title: this.videoDetail.name,

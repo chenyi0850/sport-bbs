@@ -212,7 +212,6 @@ export default {
       }
       this.btnLoading = true;
       const data = await this.$https.post(this.$urls.updateUser, this.params);
-      console.log(data);
       this.btnLoading = false;
 
       const userInfo = {
