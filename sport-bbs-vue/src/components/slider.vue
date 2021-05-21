@@ -40,7 +40,7 @@
         v-for="item in list"
         class="item"
         :key="item._id"
-        :to="`${tagType}?tag_id=${item._id}&tag_name=${item.name}&category_id=`"
+        :to="`${tagType}?tag_id=${item._id}&tag_name=${item.name}`"
       >
         <span :key="item._id">{{ item.name }}</span>
       </router-link>

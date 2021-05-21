@@ -157,7 +157,10 @@ export default class myPublished extends Vue {
       });
       this.publishedList.splice(index, 1);
       if (data !== "删除成功") {
-        this.$message.error("删除失败");
+        this.$message({
+          message: "删除失败",
+          type: "error"
+        });
         return;
       }
       if (type === "1,5,13") {

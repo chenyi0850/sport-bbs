@@ -97,7 +97,10 @@ export default class Write extends Vue {
   }
   handleSuccessVideo(response: any) {
     if (response.message === "保存成功") {
-      this.$message.success("视频上传成功！");
+      this.$message({
+        message: "视频上传成功！",
+        type: "success"
+      });
       // this.imgFlag = false;
       // this.percent = 0;
       this.$https.post(this.$urls.addTimeAxis, {
@@ -113,7 +116,10 @@ export default class Write extends Vue {
     if (response.code === 1) {
       this.imgFlag = false;
       this.percent = 0;
-      this.$message.error("登录过期，请重新登录");
+      this.$message({
+        message: "登录过期，请重新登录",
+        type: 'error'
+      });
       return;
     }
     this.imgFlag = false;
@@ -121,19 +127,28 @@ export default class Write extends Vue {
     if (response.hash) {
       this.imageUrl = response.hash;
     } else {
-      this.$message.error("视频上传失败，请重新上传！");
+      this.$message({
+        message: "视频上传失败，请重新上传！",
+        type: 'error'
+      });
     }
   }
   handleError(err: any, file: any, fileList: any) {
     // 上传失败异常处理
     const error = JSON.parse(JSON.stringify(err));
-    this.$message.error(error.status.toString());
+    this.$message({
+      message: error.status.toString(),
+      type: 'error'
+    });
     this.imgFlag = false;
     this.percent = 0;
   }
   videoBeforeUpload(file: any) {
     if(!this.videoType) {
-      this.$message.warning("请选择视频类型");
+      this.$message({
+        message: "请选择视频类型",
+        type: 'warning'
+      });
       return false;
     }
     const _self = this;
@@ -146,11 +161,17 @@ export default class Write extends Vue {
       file.type === "video/rmvb";
     const isLt30M = file.size / 1024 / 1024 < 30;
     if (!isVideo) {
-      this.$message.warning("请上传正确格式的视频！");
+      this.$message({
+        message: "请上传正确格式的视频！",
+        type: 'warning' 
+      });
       return false;
     } else {
       if (!isLt30M) {
-        this.$message.warning("上传视频文件大小不能超过 30MB!");
+        this.$message({
+          message: "上传视频文件大小不能超过 30MB!",
+          type: 'warning'
+        });
         return false;
       }
     }

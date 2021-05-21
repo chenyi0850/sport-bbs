@@ -85,12 +85,7 @@ Vue.prototype.$message = function(options:any){
   })
 
 }
-Vue.prototype.$message.warning = function (options:any) {
-  return Message.warning({
-    ...options,
-    duration: 1000
-  })
-}
+
 Vue.prototype.$confirm = MessageBox.confirm;
 Vue.prototype.$loading = Loading.service;
 

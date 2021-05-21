@@ -379,6 +379,9 @@ export default class ArticleDetail extends Vue {
         this.authLogo = require("../assets/user.png");
         break
       }
+      default: {
+        this.authLogo = this.articleDetail.auth_logo
+      }
     }
     let keyword = data.keyword.join(",");
     let description = data.desc;

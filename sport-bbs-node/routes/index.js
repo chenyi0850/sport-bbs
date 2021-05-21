@@ -44,6 +44,7 @@ module.exports = app => {
 
 	
 	app.post('/addReplyMessage', message.addReplyMessage);
+	app.post('/addMessage', message.addMessage);
 	app.post('/delMessage', message.delMessage);
 	app.post('/getMessageDetail', message.getMessageDetail);
 	app.get('/getMessageList', message.getMessageList);

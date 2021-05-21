@@ -14,7 +14,7 @@
         hide-timestamp
       >
         <router-link
-          :to="item.type === (5 || 6 || 7 || 8) ? `videoDetail?src=${item.content}&coverSrc=${item.coverSrc}` : `/articleDetail?article_id=${item.title_id}`"
+          :to="item.type === 5 || 6 || 7 || 8 ? `videoDetail?src=${item.content}&coverSrc=${item.coverSrc}` : `/articleDetail?article_id=${item.title_id}`"
           target="_blank"
         >
           <h3 class="item">{{ item.action }}  <span class="title">{{ item.title }}</span></h3>

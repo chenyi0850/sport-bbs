@@ -29,7 +29,7 @@ module.exports = app => {
     app.post('/delArticle', article.delArticle);
     app.post('/addTag', tag.addTag);
 	app.post('/delTag', tag.delTag);
-    app.post('/addMessage', message.addMessage);
+    
     app.post('/updateTimeAxis', timeAxis.updateTimeAxis);
     app.get('/getTimeAxisList', timeAxis.getTimeAxisList);
     app.get('/searchTimeAxis', timeAxis.searchTimeAxis)
