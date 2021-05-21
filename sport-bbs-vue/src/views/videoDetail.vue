@@ -153,6 +153,8 @@ export default {
         title: this.videoDetail.name,
         title_id: this.videoDetail._id,
         type: 7,
+        content: this.$route.query.src,
+        coverSrc: this.$route.query.coverSrc,
       });
     },
     async collectVideo() {
@@ -271,6 +273,8 @@ export default {
         title: this.videoDetail.name,
         title_id: this.videoDetail._id,
         type: 8,
+        content: this.$route.query.src,
+        coverSrc: this.$route.query.coverSrc,
       });
     },
     refreshArticle() {
