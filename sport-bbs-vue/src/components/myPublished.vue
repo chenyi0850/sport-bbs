@@ -137,15 +137,18 @@ export default class myPublished extends Vue {
         });
         return;
       }
-      if (kind === "delArticle") {
-        const data = await this.$https.post(this.$urls.delArticle, {
-          id: item.title_id,
-        });
-      } else {
-        const data = await this.$https.post(this.$urls.delVideo, {
-          id: item.title_id,
-        });
+      if (type === "1,5,13") {
+        if (kind === "delArticle") {
+          const data = await this.$https.post(this.$urls.delArticle, {
+            id: item.title_id,
+          });
+        } else {
+          const data = await this.$https.post(this.$urls.delVideo, {
+            id: item.title_id,
+          });
+        }
       }
+
       const data = await this.$https.post(this.$urls.delTimeAxis, {
         _id,
       });
@@ -159,7 +162,7 @@ export default class myPublished extends Vue {
       if (data !== "删除成功") {
         this.$message({
           message: "删除失败",
-          type: "error"
+          type: "error",
         });
         return;
       }
